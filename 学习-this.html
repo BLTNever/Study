@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>this</title>
+</head>
+<body>
+	<script>
+		window.key = 'key';
+
+		function test1(args){
+			return this.key + ', args:' + args;
+		}
+		//相当于 window.test1('test arg'), 执行环境为window
+		console.log(test1('test arg'))//test1 函数执行时候运行环境为windows，所以输出window.key
+
+		var testObj = {key:'call改变了this后的key'};
+		console.log(test1.call(testObj,'call args'))//javascript 的call, 改变函数执行时的当前对象，让this指向其 testObj
+
+		function test2(key){
+			this.key = key;
+			this.get = function(){
+				return this.key;
+			}
+		}
+		// new关键字后的构造函数中的this指向用该构造函数构造出来的新对象：
+		// test2 是构造函数
+		// t2 是这个函数的实例, 
+		var t2 = new test2('test2');
+		console.log(t2.get());
+		//console.log(test2,t2)
+		//console.log(t2.constructor == test2,'t2的constructor就是test2')
+
+		var test3 = {
+			key : 'test3',
+			fuckTest1 : test1,
+			fuck : function(){
+				return this === test3;
+			}
+		}
+
+		//相当于 test3.fuckTest1('fuckTest1'), 执行环境为window.test3 
+		console.log(test3.fuckTest1('fuckTest1')) //fuckTest1作为test1的引用，执行时候环境为test3
+		//相当于 test3.fuck(), 执行环境为window.test3
+		console.log(test3.fuck()) //根fuckTest1一致，运行时候，fuck内部的this 就是  test 3
+		var test4 = test3.fuck;
+		//相当于 window.test4(), 执行环境为window
+		console.log(test4(),'test4') //执行时候，根直接执行 test1一样了。。。
+
+
+		var test5 = (function(){
+			//console.log(this === window)
+			return test1('test5');
+		})();
+
+		// 内部相当于  window.test1 执行环境还是 window
+		console.log(test5); //匿名/自执行函数，运行环境为window; 比如： setTimeout(function(){ alert(this===window)  });
+
+		var data1 = {
+			key : 'data1',
+			fuck : function(){
+				return this === test3;
+			}
+		}
+		var test6 = test1.bind(data1); //在这里，test6的执行环境被绑定到了data1对象
+		console.log(test6())//
+	</script>
+
+	<div>
+		一句话，谁调的function 执行环境就是谁， this就是谁
+	</div>
+</body>
+</html>

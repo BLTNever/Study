@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>算法</title>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+
+    <style>
+        .well {
+            border: 1px dashed #666;
+            padding: 12px;
+            width: auto;
+            color: #000;
+            font-size: 16px;
+            margin: 10px auto;
+        }
+        .well p {
+            color: red;
+        }
+        .well p:nth-child(odd) {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="well">
+        <h2>数组去重</h2>
+        <code>
+            var arr1 = [1,23,4,5,6,7,3];
+            var arr2 = [2,34,,5,1,4,6,8];
+
+            function fn(){
+                var arr3 = arr1.concat(arr2);
+                for(var i = 0; i < arr3.length; i++) {
+                    for(var j = i+1; j < arr3.length; j++) {
+                        if(arr3[i] === arr3[j])(
+                            arr3.splice(j,1);
+                            j--;
+                        )
+                    }
+                }
+                return arr3;
+            }
+        </code>
+    </div>
+
+    <div class="well">
+        <h2>使用正则表达式给所有string对象添加trim方法。(去除首尾空格)</h2>
+        <code>
+            String.prototype.trim = function(){
+                return this.replace(/(^\s*)|(^\s*$)/g,'');
+            }
+        </code>
+    </div>
+
+</body>
+</html>

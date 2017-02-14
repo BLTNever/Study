@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Day 1</title>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+
+    <style>
+        .well {
+            border: 1px dashed #666;
+            padding: 12px;
+            width: auto;
+            color: #000;
+            font-size: 16px;
+            margin: 10px auto;
+        }
+        .well p {
+            color: red;
+        }
+        .well p:nth-child(odd) {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="well">
+        <!--Object valueOf()-->
+        <!-- 写一个mul函数调用时将生成以下输出:
+            console.log(mul(2)(3)(4)); // output : 24 
+            console.log(mul(4)(3)(4)); // output : 48 -->
+        <code>
+            var mul = function(x) { </br>
+            var result = function(y) {</br>
+            &nbsp;&nbsp;return mul(x * y); </br> 
+            &nbsp;} </br>
+            &nbsp;result.valueOf = function() { </br>
+            &nbsp;&nbsp;return x; </br>
+            &nbsp;} </br>
+            &nbsp;return result; </br>
+            } </br>
+            
+            <p>console.log(mul(2),'//mul(2)'); </p>
+            <p>console.log(mul(2)(3)(4),'//mul(2)(3)(4)'); </p>
+        </code>
+        
+    </div>
+
+    <div class="well">
+        <h2>__proto__（隐式原型）与prototype（显式原型）</>
+        <h3>1. 是什么</h3>
+        <p>每一个函数在创建之后都会拥有一个名为prototype的属性，这个属性指向函数的原型对象</p>
+        <p>Note：通过Function.prototype.bind方法构造出来的函数是个例外，它没有prototype属性。</p>
+        <p>Note: Object.prototype 这个对象是个例外，它的__proto__值为null </p>
+        <p>隐式原型指向创建这个对象的函数(<strong>constructor</strong>)的prototype</p>
+        <h3>2. 作用是什么</h3>
+
+
+        <code>
+            第一种:
+            var a = {x:1};
+            var b =Object.create(a);
+            console.log(b);//输出:{};
+            console.log(b.__proto__);//输出:{x:1}
+
+            第二种:
+            用b = new object(a);
+            console.log(b);//输出:{x:1}
+            console.log(b.__proto__);//输出{}
+            只要注意区分__proto__和prototype就可以了
+        </code>
+
+    
+    </div>
+
+    <!--闭包 && 作用域-->
+    <div class="well">
+        <p>
+            一个函数的局部变量在函数调用完成后，居然还没有死掉，它以某种形式顽强地活了下来，这种形式就是闭包。</br>
+            通常，函数中定义的局部变量，在函数调用完成退出时会被清理掉---即不可访问了。</br>
+            但是由于某种原因，在退出函数时这个变量无法被清理---因为它仍然可以通过某种方式访问。</br>
+            结果是这个变量被以某种方式存在内存中，即闭包。
+        </p>
+
+        <p>
+            作用域就是变量与函数的可访问范围，即作用域控制着变量与函数的可见性和生命周期。在JavaScript中，变量的作用域有全局作用域和局部作用域两种。
+        </p>
+        
+    </div>
+    <!--模块开发-->
+    <div class="well">
+        <p>
+            一、原始写法
+                模块就是实现特定功能的一组方法。
+        </p>
+        <code>
+            function m1(){
+                //...
+            }
+        　　 function m2(){
+                //...
+        　　 }
+        </code>
+        <p>
+            二、对象写法
+                可以把模块写成一个对象，所有的模块成员都放到这个对象里面。
+        </p>
+        <code>
+            var module1 = new Object({
+                _count : 0,
+                m1 : function (){
+                    //...
+                },
+                m2 : function (){
+                    //...
+                }
+            });
+            <p>这样的写法会暴露所有模块成员，内部状态可以被外部改写</p>
+            <code>
+                module1._count = 5;
+            </code>
+        </code>
+        <p>
+            三、立即执行函数写法
+                使用"立即执行函数"（Immediately-Invoked Function Expression，IIFE），可以达到不暴露私有成员的目的。
+        </p>
+        <code>
+            var module1 = (function(){
+                var _count = 0;
+                var m1 = function(){
+                　　//...
+                };
+                var m2 = function(){
+                　　//...
+                };
+                return {
+                　　m1 : m1,
+                　　m2 : m2
+                };
+            })();
+        </code>
+        <p>
+            四、放大模式
+                如果一个模块很大，必须分成几个部分，或者一个模块需要继承另一个模块，这时就有必要采用"放大模式"（augmentation）。
+        </p>
+        <code>
+            var module1 = (function (mod){
+                mod.m3 = function () {
+                　　//...
+                };
+                return mod;
+            })(module1);
+        </code>
+        <p>上面的代码为module1模块添加了一个新方法m3()，然后返回新的module1模块。</p>
+    </div>
+
+    <div class="well">
+        <h2>Javascript模块规范共有两种：CommonJS和AMD</h2>
+        <p>node.js的模块系统，就是参照CommonJS规范实现的。在CommonJS中，有一个全局性方法require()，用于加载模块。</p>
+    </div>
+
+    <div class="well">
+        <!--JS闭包-->
+        <p>1.函数」和「函数内部能访问到的变量」（也叫环境）的总和，就是一个闭包。</p>
+        <p>2.闭包的场景：</br>
+            &nbsp;2.1.使用闭包可以在JavaScript中模拟块级作用域；</br>
+            &nbsp;2.2.闭包可以用于在对象中创建私有变量。
+        </p>
+        <p>3.闭包是指有权访问另一个函数作用域中的变量函数；(闭包就是一个访问父函数局部变量的函数)</p>
+        <p>
+            4.闭包是指那些能够访问独立(自由)变量的函数 (变量在本地使用，但定义在一个封闭的作用域中)。换句话说，这些函数可以“记忆”它被创建时候的环境
+        </p>
+        <p>
+            5.从定义上来看，所有的函数都可以是闭包。当一个函数在调用时，引用了不是自己作用域内定义的变量（通常称其为自由变量），则形成了闭包；闭包是代码块和创建该代码块的上下文中数据的结合。
+        </p>
+        <p>
+            6.一个函数的局部变量在函数调用完成后，居然还没有死掉，它以某种形式顽强地活了下来，这种形式就是闭包。</br>
+            &nbsp;6.1. 通常，函数中定义的局部变量，在函数调用完成退出时会被清理掉---即不可访问了。</br>
+            &nbsp;6.2. 但是由于某种原因，在退出函数时这个变量无法被清理---因为它仍然可以通过某种方式访问。</br>
+            &nbsp;6.3. 结果是这个变量被以某种方式存在内存中，即闭包。
+        </p>
+
+        function foo(){</br>
+        &nbsp;var local = 1</br>
+        &nbsp;function bar(){</br>
+        &nbsp;&nbsp;local++</br>
+        &nbsp;&nbsp;return local</br>
+        &nbsp;}</br>
+        &nbsp;return bar;</br>
+        }</br>
+
+        var func = foo();</br>
+        func();
+    </div>
+
+    <script>
+        // well1
+        var mul = function(x) {
+            var result = function(y) {
+                return mul(x * y);
+            } 
+            result.valueOf = function() {
+                return x;
+            }
+            return result;
+        }
+        // // ES6写法
+        // let mulES = (x) => {
+        //     const result = (y) => {
+        //         mulES(x * y);
+        //     }
+        //     result.valueOf = () => x;
+            
+        //     return result;
+        // }
+        console.log('---valueOf.start---');
+        console.log(mul(2),'//mul(2)');
+        console.log(mul(2)(3)(4),'//mul(2)(3)(4)');
+        console.log(mul(4)(3)(4),'//mul(4)(3)(4)');
+        console.log('---valueOf.end---');
+        
+        // well2
+        // 第一种:
+        var a = {x:1};
+        var b =Object.create(a);
+        console.log(b);//输出:{};
+        console.log(b.__proto__);//输出:{x:1}
+
+        // 第二种:
+        b = new object(a);
+        console.log(b);//输出:{x:1}
+        console.log(b.__proto__);//输出{}
+        // 只要注意区分__proto__和prototype就可以了
+
+        // well3
+        // 模块开发
+
+    </script>
+</body>
+</html>
