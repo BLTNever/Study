@@ -31,6 +31,8 @@
 <body>
     <!--JS异步回调-->
     <div class="well">
+        <h2>不同的异步函数</h2>
+        
         <P>回调函数</P>
         <code>
             function getSth(com) {
@@ -66,6 +68,61 @@
             getSth().then(compute);           
         </code>
         
+        <p>generator</p>
+        <code>
+            function getSth() {
+                var r = 0;
+                setTimeout(function() {
+                    r = 2;
+                    it.next(r);
+                })
+            }
+            function *compute(it) {
+                var x = yield getSth();
+                alert(x * ２)
+            }
+            var it = compute();
+            it.next();
+        </code>
+
+        <p>promise + generator</p>
+        <code>
+            function getSth() {
+                var r = 0;
+                return new Promise(function(){
+                    setTimeout(function() {
+                        r = 2;
+                        resolve(r);
+                    },10)
+                })
+            }
+            function *compute() {
+                var x = yield getSth();
+                alert(x * 2);
+            }
+            var it = compute();
+            it.next().value.then(function(value) {
+                it.next(value)
+            })
+        </code>
+
+        <p>async</p>
+        <code>
+            function getSth() {
+                var r = 0;
+                return new Promise(function(){
+                    setTimeout(function() {
+                        r = 2;
+                        resolve(r);
+                    },10)
+                })
+            }
+            async function compute() {
+                var x = await getSth();
+                alert(x * 2);
+            }
+            compute();
+        </code>
     </div>
 
     <div class="well">
@@ -137,6 +194,9 @@
             }
         </code>
     </div>
+
+
+
 
     <script>
         var isMomHappy = true;

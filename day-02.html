@@ -70,5 +70,26 @@
             //是先执行自加，然后再与10比较。这样在i=9时，先自加，得到i=10,然后比较就会退出循环了。这种情况下，退出后i值为10。
         </code>
     </div>
+
+    
+ 
+    <script>
+
+      
+      
+        // 数组合并去重
+        var arr1 = ["ab", "bc", "de", "fg", "am"]; 
+        var arr2 = ["ml", "kg", "ww", "bc", "am"]; 
+        function fn(arr1, arr2) {
+            var arr3 = arr1.concat(arr2);
+            for (var i = 0; i < arr3.length; i++) {
+                for (var j = i + 1; j < arr3.length; j++) {
+                    if (arr3[i] === arr3[j]) { arr3.splice(j, 1); j-- }
+                }
+            } 
+
+            return arr3;
+        }
+    </script>
 </body>
 </html>
