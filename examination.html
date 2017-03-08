@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>一些小题</title>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+
+    <style>
+        .well {
+            border: 1px dashed #666;
+            padding: 12px;
+            width: auto;
+            color: #000;
+            font-size: 16px;
+            margin: 10px auto;
+        }
+        .well p {
+            color: red;
+        }
+        .well p:nth-child(odd) {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <!--// well-1-->
+    <div class="well">
+        <!--Object valueOf()-->
+        <!-- 写一个mul函数调用时将生成以下输出:
+        console.log(mul(2)(3)(4)); // output : 24 
+        console.log(mul(4)(3)(4)); // output : 48 -->
+        <pre>
+            var mul = function(x) {
+                var result = function(y) {
+                    return mul(x * y); 
+                }
+                result.valueOf = function() {
+                    return x;
+                }
+                return result;
+            }
+            <p>console.log(mul(2),'//mul(2)'); </p>
+            <p>console.log(mul(2)(3)(4),'//mul(2)(3)(4)'); </p>
+        </pre>
+        
+    </div>
+
+    <!--// well-2-->
+    <div class="well">
+        <h2>函数fn有一个参数n (数字类型)，返回一个数组,数组内是n个随机且不重复的整数,取值范围[2,32]</h2> 
+        <pre>
+        const fn1 = (n) => {
+            const arr = []
+            for(let i = 2; i < 33; i++) {
+                arr.push(i)
+            }
+            return arr.map(val => ({
+                val, index: Math.random()
+            })).sort((a, b) => 
+                a.index - b.index
+            ).map(o => 
+                o.val
+            ).slice(0, n)
+        }
+        </pre>
+    </div>
+
+    <!--// well-3-->
+    <div class="well">
+        <h2>使用正则表达式给所有string对象添加trim方法。(去除首尾空格)</h2>
+        <pre>
+        String.prototype.trim = function(){
+            return this.replace(/(^\s*)|(^\s*$)/g,'');
+        }
+        </pre>
+    </div>
+    
+    <!--// well-4-->
+    <div class="well">
+        <h2>i++ 与 ++i</h2>
+        
+        <pre>
+        var i = 1;
+        a = i++ //这里i要先赋值,再自加.语句执行后a=10, i = 11;
+        b = ++i; //这里i要先自加，再赋值。语句执行后b=11, i = 11;
+        var i =0;
+        while(i++<10);
+        //i会先和10比较大小，然后执行自加。这样当i=10时，退出循环，再执行一次自加，退出后i值为11。
+        而如果写成
+        while(++i<10);
+        //是先执行自加，然后再与10比较。这样在i=9时，先自加，得到i=10,然后比较就会退出循环了。这种情况下，退出后i值为10。
+        </pre>
+    </div>
+
+
+   
+    <script>
+        // well-1
+        var mul = function(x) {
+            var result = function(y) {
+                return mul(x * y);
+            } 
+            result.valueOf = function() {
+                return x;
+            }
+            return result;
+        }
+        // // ES6写法
+        // let mulES = (x) => {
+        //     const result = (y) => {
+        //         mulES(x * y);
+        //     }
+        //     result.valueOf = () => x;
+            
+        //     return result;
+        // }
+        console.log('---valueOf.start---');
+        console.log(mul(2),'//mul(2)');
+        console.log(mul(2)(3)(4),'//mul(2)(3)(4)');
+        console.log(mul(4)(3)(4),'//mul(4)(3)(4)');
+        console.log('---valueOf.end---');
+
+        // well-2
+            // 函数fn有一个参数n (数字类型)，返回一个数组,数组内是n个随机且不重复的整数,取值范围[2,32]
+            // 解1
+        const fn1 = (n) => {
+            const arr = []
+            for(let i = 2; i < 33; i++) {
+                arr.push(i)
+            }
+            return arr.map(val => ({
+                val, index: Math.random()
+            })).sort((a, b) => 
+                a.index - b.index
+            ).map(o => 
+                o.val
+            ).slice(0, n)
+        }
+        // 解1:ES5
+        var fn2 = function(n) {
+            var arr = [];
+            for(var i = 2; i < 33; i++) {
+                arr.push(i);
+            }
+            var arr1 = arr.map(function(val) {
+                val = {
+                    val : val, 
+                    index : Math.random()
+                }
+                return val
+            })
+            var arr2 = arr1.sort(function(a, b){ 
+                return a.index - b.index
+            })
+            var arr3 = arr2.map(function(val){
+                return val.val
+            })
+            return result = arr3.slice(0, n);
+        }
+        // console.log(fn2(4));
+        // 解2
+        function random(n){
+            var dataList = []; //存储2到32之间的所有整数
+            for (var i = 2; i < 33; i++) {
+                dataList.push(i);
+            }
+            // temp中间对象，主要用于决定是否往结果数组里面添加数字，result结果数组
+            var temp = {}, result = [];
+            while (result.length < n) {
+                var randData = Math.floor(Math.random() * dataList.length);
+                if (typeof temp[dataList[randData]] === "undefined") {
+                    temp[dataList[randData]] = dataList[randData];
+                    result.push(dataList[randData]);
+                }
+            }
+            return result;
+        }
+        // console.log(random(5))
+
+
+       
+        var globalVar = "abc"; 
+
+        var outerFunction = function (outerArg) { 
+            var outerFuncVar = 'x';    
+            function innerFunction (innerArg) { 
+                var innerFuncVar = "y"; 
+                console.log(          
+                    "outerArg = " + outerArg + "\n" +
+                    "outerFuncVar = " + outerFuncVar + "\n" +
+                    "innerArg = " + innerArg + "\n" +
+                    "innerFuncVar = " + innerFuncVar + "\n" +
+                    "globalVar = " + globalVar
+                );
+            }
+        }
+        console.log(outerFunction(globalVar));
+
+            
+    </script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数组方法</title>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+
+    <style>
+        .well {
+            border: 1px dashed #666;
+            padding: 12px;
+            width: auto;
+            color: #000;
+            font-size: 16px;
+            margin: 10px auto;
+        }
+        .well p {
+            color: red;
+        }
+        .well p:nth-child(odd) {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="well">
+        <h2>冒泡排序</h2>
+        <pre>
+        var arr = [1,23,4,5,55,26,7,45,3,123];
+
+        function bubbleSort(arr) {
+
+            for(var i = 0;i < arr.length;i++) {
+                for(var j = 0;j < arr.length - 1 - i;j++) {
+                    if(arr[j] > arr[j+1]) {
+                        var temp = arr[j+1];
+                        arr[j+1] = arr[j];
+                        arr[j] = temp;
+                    }
+
+                }
+            }
+
+            return arr;
+        }
+        </pre>
+    </div>
+    
+    <div class="well">
+        <h2>选择排序</h2>
+        <pre>
+        var arr=[3,44,38,5,47,15,36,26,27,2,46,4,19,50,48];
+        function selectionSort(arr) {
+            var len = arr.length;
+            var minIndex, temp;
+            for (var i = 0; i < len - 1; i++) {
+                minIndex = i;
+                for (var j = i + 1; j < len; j++) {
+                    if (arr[j] < arr[minIndex]) {     //寻找最小的数
+                        minIndex = j;                 //将最小数的索引保存
+                    }
+                }
+                temp = arr[i];
+                arr[i] = arr[minIndex];
+                arr[minIndex] = temp;
+            }
+            return arr;
+        }
+        </pre>
+    </div>
+
+    <div class="well">
+        <h2>数组去重</h2>
+        <pre>
+        var arr1 = [1,23,4,5,6,7,3];
+        var arr2 = [2,34,,5,1,4,6,8];
+
+        function fn(){
+            var arr3 = arr1.concat(arr2);
+            for(var i = 0; i < arr3.length; i++) {
+                for(var j = i+1; j < arr3.length; j++) {
+                    if(arr3[i] === arr3[j])(
+                        arr3.splice(j,1);
+                        j--;
+                    )
+                }
+            }
+            return arr3;
+        }
+        </pre>
+    </div>
+
+
+
+
+   
+    <script>
+
+    
+        // 冒泡排序
+        var arr3 = [1,23,4,5,55,26,7,45,3,123];
+        function bubbleSort(arr) {
+
+            for(var i = 0;i < arr.length;i++) {
+                for(var j = 0;j < arr.length - 1 - i;j++) {
+                    if(arr[j] > arr[j+1]) {
+                        var temp = arr[j+1];
+                        arr[j+1] = arr[j];
+                        arr[j] = temp;
+                    }
+
+                }
+            }
+
+            return arr;
+        }
+        bubbleSort(arr3);
+        console.log(bubbleSort(arr3))
+      
+        // 数组合并去重
+        var arr1 = ["ab", "bc", "de", "fg", "am"]; 
+        var arr2 = ["ml", "kg", "ww", "bc", "am"]; 
+        function fn(arr1, arr2) {
+            var arr3 = arr1.concat(arr2);
+            for (var i = 0; i < arr3.length; i++) {
+                for (var j = i + 1; j < arr3.length; j++) {
+                    if (arr3[i] === arr3[j]) { arr3.splice(j, 1); j-- }
+                }
+            } 
+
+            return arr3;
+        }
+
+    </script>
+</body>
+</html>

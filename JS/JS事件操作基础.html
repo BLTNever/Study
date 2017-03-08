@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JS事件操作基础</title>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+
+    <style>
+        body {
+            position: relative;
+        }
+
+        .well {
+            border: 1px dashed #666;
+            padding: 12px;
+            width: auto;
+            color: #000;
+            font-size: 16px;
+            margin: 10px auto;
+        }
+
+        .well p {
+            color: red;
+        }
+
+        .well p:nth-child(odd) {
+            color: blue;
+        }
+        
+        
+        #playbord div {
+            /*float: left;*/
+            position: absolute;
+            width: 20px;
+            height: 20px;
+        }
+
+        #playbord {
+            left: 10px;
+        }
+        
+        .move-well {
+            height: 140px;
+        }
+        #move {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            background: #1d1f20;
+        }
+    
+    </style>
+</head>
+
+<body>
+
+    <!--JS事件操作基础初级-->
+    <div class="well">
+        <div id="enter">
+            <input type="text" id="enterInput">
+        </div>
+
+        <button class="btn btn-primary" id="enterBtn">Enter</button>
+
+        <div id="playbord"></div>
+    </div>
+
+    <!--JS事件操作基础中级-->
+
+    <div class="well move-well">
+        <div id="move">
+
+        </div>
+    </div>
+
+    <script>
+
+        // JS事件操作基础初级start
+            // 输入值跟随鼠标移动
+        window.onload = function (ev) {
+            var eInp = document.getElementById('enterInput');
+            var eBtn = document.getElementById('enterBtn');
+            var ePlay = document.getElementById('playbord');
+
+            var eArr = [];
+
+            var moveTab = function (ev) {
+                // 取出输入的值转化为数组
+                eArr = eInp.value.split('');
+                // 数组长度不为空
+                if (eArr.length > 0) {
+                    for (var i = 0; i < eArr.length; i++) {
+                        var eDiv = document.createElement('div');// 循环创建一个空的div
+                        eDiv.innerHTML = eArr[i] + ' ';// 循环把输入的值添加到这个空的div中
+                        ePlay.appendChild(eDiv);// 把这些div依次添加到ePlay中
+                    };
+                    // 鼠标移动时
+                    document.onmousemove = function (ev) {
+                        var eEvent = event || ev;
+                        var moveDiv = ePlay.children; // 选到ePlay下的div
+                        console.log(moveDiv)
+                        for (var i = moveDiv.length - 1; i > 0; i--) {
+                            moveDiv[i].style.left = moveDiv[i - 1].offsetLeft + 15 + 'px';
+                            moveDiv[i].style.top = moveDiv[i - 1].offsetTop + 'px';
+                        }
+                        //鼠标坐标，clientX及clientY
+                        moveDiv[0].style.left = eEvent.clientX + 'px';
+                        moveDiv[0].style.top = eEvent.clientY + 'px';
+                    }
+                } else {
+                    alert('Please Enter Something First~')
+                }
+
+            };
+
+            eBtn.onclick = function () {
+                moveTab(ev);
+            };
+
+            document.onkeydown = function (ev) {
+                var eEvent = event || ev;
+                if (eEvent.keyCode == 13) {
+                    moveTab(ev);
+                };
+            };
+        }
+
+        // JS事件基础初级end
+       
+        // JS事件操作基础中级start
+                // document.body.
+            // 网页可见区域宽：.clientWidth 
+            // 网页可见区域高：.clientHeight 
+            // 网页可见区域宽：.offsetWidth (包括边线的宽) 
+            // 网页可见区域高：.offsetHeight (包括边线的宽) 
+            // 网页正文全文宽：.scrollWidth 
+            // 网页正文全文高：.scrollHeight 
+            // 网页被卷去的高：.scrollTop 
+            // 网页被卷去的左：.scrollLeft 
+                //window.
+            // 网页正文部分上：.screenTop 
+            // 网页正文部分左：.screenLeft 
+            // 屏幕分辨率的高：.screen.height 
+            // 屏幕分辨率的宽：.screen.width 
+            // 屏幕可用工作区高度：.screen.availHeight 
+            // 屏幕可用工作区宽度：.screen.availWidth
+                // event.
+            // 设置或获取鼠标指针位置相对于窗口客户区域的 x 坐标: clientX 
+            // 设置或获取鼠标指针位置相对于窗口客户区域的 y 坐标: clientY
+        window.onload = function (ev) {
+            var moveDiv = document.getElementById('move'); 
+            var cliHeight = document.documentElement.clientHeight; // 网页可见区域高
+            var cliWidth = document.documentElement.clientwidth; // 网页可见区域宽
+
+            moveDiv.onmousedown = function (ev) {
+                var oEvent = event || ev;
+                
+                var disX = oEvent.clientX - moveDiv.offsetLeft; // 鼠标X轴坐标减去#move距离左边界长度的距离
+                var disY = oEvent.clientY - moveDiv.offsetTop; // 鼠标y轴坐标减去#move距离上边界高度的距离
+                document.onmousemove = function (ev) {
+                    var oEvent = event || ev; 
+                    var h = oEvent.clientX - disX; 
+                    var v = oEvent.clientY - disY; 
+                    if(h < 0) { 
+                        h = 0; 
+                    }else if (h > cliWidth - moveDiv.offsetWidth) {
+                        h = cliWidth - moveDiv.offsetWidth; 
+                    }; 
+                    if(v < 0) { 
+                        v = 0; 
+                    }else if (
+                        v > cliHeight - moveDiv.offsetHeight
+                    ) {
+                        v = cliHeight - moveDiv.offsetHeight;
+                    }; 
+                    moveDiv.style.left = h + 'px'; 
+                    moveDiv.style.top = v + 'px';
+                }; 
+                document.onmouseup = function () {
+                    document.onmousemove = null; 
+                    document.onmouseup = null;
+                }; 
+                return false;
+            }
+        }
+        // JS事件基础中级end
+    </script>
+</body>
+
+</html>

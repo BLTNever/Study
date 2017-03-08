@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JS DOM操作基础</title>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+
+    <style>
+        body {
+            position: relative;
+        }
+
+        .well {
+            border: 1px dashed #666;
+            padding: 12px;
+            width: auto;
+            color: #000;
+            font-size: 16px;
+            margin: 10px auto;
+        }
+
+        .well p {
+            color: red;
+        }
+
+        .well p:nth-child(odd) {
+            color: blue;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!--JS DOM操作 排序-->
+    <div class="well">
+        <button class="btn btn-primary" id="sortBtn">排序</button>
+        <ul id="sortUl">
+            <li>2</li>
+            <li>42</li>
+            <li>6</li>
+            <li>82</li>
+            <li>12</li>
+            <li>75</li>
+        </ul>
+    </div>
+
+    <!--JS DOM操作 多条件查找-->
+    <div class="well form-group">
+        <p>
+            <input type="text" class="form-control" id="name" placeholder="Please enter name">
+            <input type="text" class="form-control" id="age" placeholder="Please enter age">
+            <button class="btn btn-primary" id="addBtn">Add</button>
+        </p>
+        <p>
+            <input type="text" class="form-control" id="target" placeholder="Put in the name you want search~">
+            <button class="btn btn-primary" id="searchBtn">Search</button>
+        </p>
+
+        <table class="table table-striped" id="tab">
+            <thead>
+                <tr>
+                    <td>Num</td>
+                    <td>Name</td>
+                    <td>Age</td>
+                    <td>Set</td>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Alex</td>
+                    <td>24</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Bob</td>
+                    <td>43</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Cindia</td>
+                    <td>18</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>David</td>
+                    <td>28</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <script>
+        // DOM操作start
+        window.onload = function () {
+            // JS排序
+            var sortBtn = document.getElementById('sortBtn');
+            var sortUl = document.getElementById('sortUl');
+
+            sortBtn.onclick = function () {
+                //元素集合,类数组,有length和下标,不能使用其他的数组方法,可以使用Array.prototype.slice.call()
+                var sortLi = sortUl.getElementsByTagName('li');
+                var arr = [];
+                for (var i = 0; i < sortLi.length; i++) {
+                    arr[i] = sortLi[i]
+                }
+                arr.sort(function (pre, next) {
+                    var n1 = parseInt(pre.innerHTML);
+                    var n2 = parseInt(next.innerHTML);
+                    return n1 - n2;
+                })
+                for (var i = 0; i < arr.length; i++) {
+                    console.log('把' + arr[i].innerHTML + '插入最后')
+                    sortUl.appendChild(arr[i])
+                }
+            }
+
+            // js搜索
+            var sBtn = document.getElementById('searchBtn'); //搜索按钮
+            var target = document.getElementById('target'); //搜索名字输入框
+            var tab = document.getElementById('tab'); //表格
+            var tabRows = tab.rows; //表格行
+            var age = document.getElementById('age'); //年龄输入框
+            var name = document.getElementById('name'); //名字输入框
+            var addBtn = document.getElementById('addBtn'); //添加按钮
+            var oldColor;
+
+            var changeBackground = function() {
+                // 隔行变色
+                for (var i = 0; i < tabRows.length; i++) {
+                    if (i % 2) {
+                        tabRows[i].style.background = '';
+                    } else {
+                        tabRows[i].style.background = '#ccc';
+                    }
+                }
+                // 悬停高亮
+                for (var i = 1; i < tabRows.length; i++) {
+                    tabRows[i].onmouseover = function () {
+                        oldColor = this.style.background;
+                        this.style.background = 'rgb(24, 123, 34)';
+                    }
+                    tabRows[i].onmouseout = function () {
+                        this.style.background = oldColor;
+
+                    }
+                }
+            }();
+
+            // 添加rows
+            addBtn.onclick = function () {
+                var createRows = document.createElement('tr');
+
+                var createTd = document.createElement('td');
+                createTd.innerHTML = tabRows.length++;
+                createRows.appendChild(createTd);
+
+                var createTd = document.createElement('td');
+                createTd.innerHTML = name.value;
+                createRows.appendChild(createTd);
+
+                var createTd = document.createElement('td');
+                createTd.innerHTML = age.value;
+                createRows.appendChild(createTd);
+
+                var createTd = document.createElement('td');
+                createTd.innerHTML = '<a href="javascrtipe:void(0)">delete</a>';
+                createRows.appendChild(createTd);
+
+                tab.appendChild(createRows);
+
+                var tabDel = document.getElementsByTagName('a');
+
+                // 删除新增row
+                for(var i = 0; i < tabDel.length; i++) {
+                    tabDel[i].onclick = function () {
+                        tab.removeChild(this.parentNode.parentNode);
+                    }
+                }
+            }
+
+            // 搜索
+            sBtn.onclick = function () {
+                for(var i = 0; i < tabRows.length; i++) {
+                    var targetValue = target.value.toLowerCase();
+                    var sTab = tab.rows[i].cells[1].innerHTML.toLowerCase();
+                    if (sTab.search(targetValue) != -1) {
+                        tab.rows[i].style.background = 'rgb(123, 124, 56)';
+                    } else {
+                        tab.rows[i].style.background = '';
+                    }
+                }
+            }
+        }
+        // DOM操作end
+
+    </script>
+</body>
+
+</html>

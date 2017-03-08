@@ -34,152 +34,152 @@
         <h2>不同的异步函数</h2>
         
         <P>回调函数</P>
-        <code>
-            function getSth(com) {
-                var r = 0;
-                setTimeout(function() {
-                    r = 2;
-                    com(r)
-                },1000)
-            }
+        <pre>
+        function getSth(com) {
+            var r = 0;
+            setTimeout(function() {
+                r = 2;
+                com(r)
+            },1000)
+        }
 
-            function compute(x) {
-                alert(x * 2);
-            }
+        function compute(x) {
+            alert(x * 2);
+        }
 
-            getSth(compute);
-        </code>
+        getSth(compute);
+        </pre>
 
         <p>promise</p>
-        <code>
-            function getSth() {
-                var r = 0;
-                return new Promise(function(resolve) {
-                    setTimeout(function() {
-                        r = 2;
-                        resolve(r);
-                    },1000)
-                })
-            }
-            function compute(x) {
-                alert(x * 2)
-            }
-
-            getSth().then(compute);           
-        </code>
-        
-        <p>generator</p>
-        <code>
-            function getSth() {
-                var r = 0;
+        <pre>
+        function getSth() {
+            var r = 0;
+            return new Promise(function(resolve) {
                 setTimeout(function() {
                     r = 2;
-                    it.next(r);
-                })
-            }
-            function *compute(it) {
-                var x = yield getSth();
-                alert(x * ２)
-            }
-            var it = compute();
-            it.next();
-        </code>
+                    resolve(r);
+                },1000)
+            })
+        }
+        function compute(x) {
+            alert(x * 2)
+        }
+
+        getSth().then(compute);           
+        </pre>
+        
+        <p>generator</p>
+        <pre>
+        function getSth() {
+            var r = 0;
+            setTimeout(function() {
+                r = 2;
+                it.next(r);
+            })
+        }
+        function *compute(it) {
+            var x = yield getSth();
+            alert(x * ２)
+        }
+        var it = compute();
+        it.next();
+        </pre>
 
         <p>promise + generator</p>
-        <code>
-            function getSth() {
-                var r = 0;
-                return new Promise(function(){
-                    setTimeout(function() {
-                        r = 2;
-                        resolve(r);
-                    },10)
-                })
-            }
-            function *compute() {
-                var x = yield getSth();
-                alert(x * 2);
-            }
-            var it = compute();
-            it.next().value.then(function(value) {
-                it.next(value)
+        <pre>
+        function getSth() {
+            var r = 0;
+            return new Promise(function(){
+                setTimeout(function() {
+                    r = 2;
+                    resolve(r);
+                },10)
             })
-        </code>
+        }
+        function *compute() {
+            var x = yield getSth();
+            alert(x * 2);
+        }
+        var it = compute();
+        it.next().value.then(function(value) {
+            it.next(value)
+        })
+        </pre>
 
         <p>async</p>
-        <code>
-            function getSth() {
-                var r = 0;
-                return new Promise(function(){
-                    setTimeout(function() {
-                        r = 2;
-                        resolve(r);
-                    },10)
-                })
-            }
-            async function compute() {
-                var x = await getSth();
-                alert(x * 2);
-            }
-            compute();
-        </code>
+        <pre>
+        function getSth() {
+            var r = 0;
+            return new Promise(function(){
+                setTimeout(function() {
+                    r = 2;
+                    resolve(r);
+                },10)
+            })
+        }
+        async function compute() {
+            var x = await getSth();
+            alert(x * 2);
+        }
+        compute();
+        </pre>
     </div>
 
     <div class="well">
         <!--step 1-->
-        <code>
-            var isMomHappy = false;
-            var willGetNewPhone = new Promise(function(resolve, reject){
-                if(isMomHappy) {
-                    var phone = {
-                        brand: 'Samsung',
-                        color: 'black';
-                    };
-                    
-                    resolve(phone)
-                }else {
-                    var reson = new Error('mom is not happy');
-                    reject(reson);
-                }
-            })
+        <pre>
+        var isMomHappy = false;
+        var willGetNewPhone = new Promise(function(resolve, reject){
+            if(isMomHappy) {
+                var phone = {
+                    brand: 'Samsung',
+                    color: 'black';
+                };
+                
+                resolve(phone)
+            }else {
+                var reson = new Error('mom is not happy');
+                reject(reson);
+            }
+        })
 
-            <p>new Promise(function(resolve, reject) { ... })</p>
-            <p>需要记住的是，在你定义的promise里，当结果是成功的，叫 解决(你的成功值resolve)，如果结果失败了，叫 拒绝（你的失败值reject）</p>
-        </code>
+        <p>new Promise(function(resolve, reject) { ... })</p>
+        <p>需要记住的是，在你定义的promise里，当结果是成功的，叫 解决(你的成功值resolve)，如果结果失败了，叫 拒绝（你的失败值reject）</p>
+        </pre>
         <!--step 2-->
-        <code>
-            var askMom = function() {
-                willGetNewPhone
-                    .then(function(fulfilled) {
-                        console.log(fulfilled);
-                    })
-                    .catch(function(error) {
-                        console.log(error);
-                    })
-            };
-            askMom();
-            
-            <p>我们有一个函数“askmom”。在这个函数中，我们将使用我们的承诺“ willigetnewphone”。</p>
-            <p>当我们的promise是解决或者拒绝的时候，我们要做点事儿，我们用“.then & .catch ”来处理我们的行动；</p>
-            <p>在“.then”里面有函数“ function(fulfilled) { ... } ”。这个函数的返回值是啥呢？返回值是promise解决的值（你的成功时候的值）；在我们的案例中它是一部新电话 。</p>
-            <p>在 ".catch"里面有函数"function(error){ ... } "。猜测一下，其实这个返回的是错误值，就是promise拒绝的值。</p>
-        </code>
+        <pre>
+        var askMom = function() {
+            willGetNewPhone
+                .then(function(fulfilled) {
+                    console.log(fulfilled);
+                })
+                .catch(function(error) {
+                    console.log(error);
+                })
+        };
+        askMom();
+        
+        <p>我们有一个函数“askmom”。在这个函数中，我们将使用我们的承诺“ willigetnewphone”。</p>
+        <p>当我们的promise是解决或者拒绝的时候，我们要做点事儿，我们用“.then & .catch ”来处理我们的行动；</p>
+        <p>在“.then”里面有函数“ function(fulfilled) { ... } ”。这个函数的返回值是啥呢？返回值是promise解决的值（你的成功时候的值）；在我们的案例中它是一部新电话 。</p>
+        <p>在 ".catch"里面有函数"function(error){ ... } "。猜测一下，其实这个返回的是错误值，就是promise拒绝的值。</p>
+        </pre>
         <!--step 3-->
-        <code>
-            var showOff = function(phone) {
-                <!--return new Promise(function(resolve, reject) {
-                    var message = 'Hey bro, I have a new' + phone.color + ' ' + phone.brand + 'phone';
-
-                    resolve(message);
-                })-->
-
+        <pre>
+        var showOff = function(phone) {
+            <!--return new Promise(function(resolve, reject) {
                 var message = 'Hey bro, I have a new' + phone.color + ' ' + phone.brand + 'phone';
 
-                return Promise.resolve(message);
+                resolve(message);
+            })-->
+
+            var message = 'Hey bro, I have a new' + phone.color + ' ' + phone.brand + 'phone';
+
+            return Promise.resolve(message);
             }
-        </code>
+        </pre>
         <!--step 4-->
-        <code>
+        <pre>
             var askMom = function() {
                 console.log('before asking mom');
                 willGetNewPhone
@@ -192,7 +192,7 @@
                 })
                 console.log('after asking mom')
             }
-        </code>
+        </pre>
     </div>
 
 
