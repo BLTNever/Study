@@ -11,6 +11,9 @@
     <style>
         body {
             position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
         }
 
         .well {
@@ -140,6 +143,11 @@
             // 网页正文全文高：.scrollHeight 
             // 网页被卷去的高：.scrollTop 
             // 网页被卷去的左：.scrollLeft 
+
+            // obj.offsetTop 指 obj 相对于版面或由 offsetParent 属性指定的父坐标的计算上侧位置，整型，单位像素。
+            // obj.offsetLeft 指 obj 相对于版面或由 offsetParent 属性指定的父坐标的计算左侧位置，整型，单位像素。
+            // obj.offsetWidth 指 obj 控件自身的绝对宽度，不包括因 overflow 而未显示的部分，也就是其实际占据的宽度，整型，单位像素。
+            // obj.offsetHeight 指 obj 控件自身的绝对高度，不包括因 overflow 而未显示的部分，也就是其实际占据的高度，整型，单位像素
                 //window.
             // 网页正文部分上：.screenTop 
             // 网页正文部分左：.screenLeft 
@@ -155,29 +163,30 @@
             var cliHeight = document.documentElement.clientHeight; // 网页可见区域高
             var cliWidth = document.documentElement.clientwidth; // 网页可见区域宽
 
+            // 鼠标点击#move按下时
             moveDiv.onmousedown = function (ev) {
                 var oEvent = event || ev;
-                
-                var disX = oEvent.clientX - moveDiv.offsetLeft; // 鼠标X轴坐标减去#move距离左边界长度的距离
-                var disY = oEvent.clientY - moveDiv.offsetTop; // 鼠标y轴坐标减去#move距离上边界高度的距离
+                // 按下时计算鼠标当前坐标距离#move边框的距离
+                var disX = oEvent.clientX - moveDiv.offsetLeft; // 鼠标X轴坐标(clientX)减去#move距离左边界的距离
+                var disY = oEvent.clientY - moveDiv.offsetTop; // 鼠标y轴坐标(clientY)减去#move距离上边界的距离
+                // 鼠标点击移动时
                 document.onmousemove = function (ev) {
                     var oEvent = event || ev; 
-                    var h = oEvent.clientX - disX; 
-                    var v = oEvent.clientY - disY; 
-                    if(h < 0) { 
-                        h = 0; 
-                    }else if (h > cliWidth - moveDiv.offsetWidth) {
-                        h = cliWidth - moveDiv.offsetWidth; 
+                    // 鼠标移动时计算 鼠标当前坐标减去鼠标距离#move边框的距离. 得出#move边框距离边界的距离
+                    var moveX = oEvent.clientX - disX; // #move距离可见区域X轴的距离
+                    var moveY = oEvent.clientY - disY; // #move距离可见区域X轴的距离
+                    if(moveX < 0) { 
+                        moveX = 0; 
+                    }else if (moveX > cliWidth - moveDiv.offsetWidth) {
+                        moveX = cliWidth - moveDiv.offsetWidth; 
                     }; 
-                    if(v < 0) { 
-                        v = 0; 
-                    }else if (
-                        v > cliHeight - moveDiv.offsetHeight
-                    ) {
-                        v = cliHeight - moveDiv.offsetHeight;
+                    if(moveY < 0) { 
+                        moveY = 0; 
+                    }else if (moveY > cliHeight - moveDiv.offsetHeight) {
+                        moveY = cliHeight - moveDiv.offsetHeight;
                     }; 
-                    moveDiv.style.left = h + 'px'; 
-                    moveDiv.style.top = v + 'px';
+                    moveDiv.style.left = moveX + 'px'; 
+                    moveDiv.style.top = moveY + 'px';
                 }; 
                 document.onmouseup = function () {
                     document.onmousemove = null; 
