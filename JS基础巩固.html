@@ -36,7 +36,6 @@
         <p>隐式原型指向创建这个对象的函数(<strong>constructor</strong>)的prototype</p>
         <h3>2. 作用是什么</h3>
 
-
         <pre>
             第一种:
             var a = {x:1};
@@ -50,8 +49,7 @@
             console.log(b.__proto__);//输出{}
             只要注意区分__proto__和prototype就可以了
         </pre>
-
-    
+  
     </div>
     
     <!--new Obj-->
@@ -60,6 +58,8 @@
         <p>1. 创建一个空对象，并且 this 变量引用该对象，同时还继承了该函数的原型。</p>
         <p>2. 属性和方法被加入到 this 引用的对象中。</p>
         <p>3. new就是该对象的 _ proto _属性指向该类的prototype,而create就直接指向显示的指向</p>
+        <h2>Object.create()</h2>
+        <p>Object.create是让新对象的__proto__指向老对象实现属性继承</p>
     </div>
 
     <!--闭包 && 作用域-->
@@ -71,7 +71,12 @@
             结果是这个变量被以某种方式存在内存中，即闭包。
         </p>
         <p>
-            作用域就是变量与函数的可访问范围，即作用域控制着变量与函数的可见性和生命周期。在JavaScript中，变量的作用域有全局作用域和局部作用域两种。
+            作用域就是变量与函数的可访问范围，即作用域控制着变量与函数的可见性和生命周期。</br>
+            在JavaScript中，变量的作用域有全局作用域和局部作用域两种。
+        </p>
+
+        <p>
+            函数嵌套函数，内部函数可以引用外部函数的参数和变量，变量和参数不会被垃圾回收机制所回收
         </p>
         
     </div>
@@ -186,6 +191,26 @@
     </div>
 
     <div class="well">
+        <!--// 闭包例子, 它访问了三个域的变量, 它自己作用域的变量, 父函数作用域的变量全局作用域的变量-->
+        <pre>
+            var globalVar = 'globar';
+            (function outFuc(outArg){
+                var outVar = 'out';
+                (function inFuc(inArg){
+                    var inVar = 'in';
+                    console.log(
+                        'globarVar = ' + globalVar + '\n' +
+                        'outArg = ' + outArg + '\n' +
+                        'inArg = ' + inArg + '\n' +
+                        'outVar = ' + outVar + '\n' +
+                        'inVar = ' + inVar + '\n' 
+                    )
+                })('outArg')
+            })('inArg')
+        </pre>
+    </div>
+
+    <div class="well">
         <pre>
             var fnName = function() {
 
@@ -195,7 +220,7 @@
             function fnName() {
 
             }
-            // 函数声明 会提升 ,可在函数声明前调用
+            // 函数声明 定义位置会提升 ,可在函数声明前调用
 
             function() {
 
@@ -208,19 +233,29 @@
             // 立即执行函数,必须是函数表达式,不能是函数声明
         </pre>
     </div>
-   
+    
+    <div class="well">
+        <pre>
+            Number + Number -> 加法
+            Boolean + Number -> 加法
+            Boolean + Boolean -> 加法
+            Number + String -> 连接
+            String + Boolean -> 连接
+            String + String -> 连接
+        </pre>
+    </div>
 
     <script>
         
         // well1
             // 第一种:
         var a = {x:1};
-        var b =Object.create(a);
+        var b = Object.create(a);
         console.log(b);//输出:{};
         console.log(b.__proto__);//输出:{x:1}
 
         // 第二种:
-            b = new object(a);
+            // b = new Object(a);
         console.log(b);//输出:{x:1}
         console.log(b.__proto__);//输出{}
         // 只要注意区分__proto__和prototype就可以了
@@ -228,6 +263,29 @@
         // well2
             // 模块开发
 
+
+        // well3
+
+        // 闭包例子, 它访问了三个域的变量, 它自己作用域的变量, 父函数作用域的变量全局作用域的变量
+        var globalVar = "abc"; 
+
+        (function outerFunction (outerArg) { 
+            var outerVar = 'x';    
+            (function innerFunction (innerArg) {
+                var innerVar = "y"; 
+                console.log(          
+                    "outerArg = " + outerArg + "\n" +
+                    "outerVar = " + outerVar + "\n" +
+                    "innerArg = " + innerArg + "\n" +
+                    "innerVar = " + innerVar + "\n" +
+                    "globalVar = " + globalVar);
+            })(5);  
+        })(7); 
+        // outerArg = 7
+        // outerVar = x
+        // innerArg = 5
+        // innerVar = y
+        // globalVar = abc
     </script>
 </body>
 </html>

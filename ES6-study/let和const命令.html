@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>let和const命令</title>
+</head>
+<body>
+
+    <script>
+        // let 基本 ---------------------------------------------------------------------------------
+
+        let a = 'xxx';
+        // 等于var，但 只作用于块级作用域，不存在变量提升。
+        // 不允许重复声明
+        // let声明的变量是从声明开始的地方才能引用。
+        // let声明的变量只在它所在的代码块有效。
+        // 如果区块中存在let和const命令，
+        // 这个区块对这些命令声明的变量，从一开始就形成了封闭作用域。
+        // 代码块内，使用let命令声明变量之前，该变量都是不可用的
+        for (let i = 0; i < 10; i++) {
+            console.log(i);
+        }
+        var a = [];
+        for (let i = 0; i < 10; i++) {
+        a[i] = function () {
+            console.log(i);
+        };
+        }
+        a[6]();
+        
+
+        // 块级作用域(let实际上为 JavaScript 新增了块级作用域。)----------------------------------------
+        function f1() {
+            let n = 5;
+            if (true) {
+                let n = 10;
+            }
+            console.log(n); // 5
+        }//外层代码块不受内层代码块的影响
+
+        {{{{{{ let insane = 'hello word' }}}}}} 
+        //块级作用域的任意嵌套。外层作用无无法读取内层的作用域的变量。内层可以定义外层的作用域。
+
+        (function(){
+            let temp = '...'
+        }()); //等同于····
+
+        {
+            let temp = '...'
+        }
+
+        //块级作用域外部调用块级作用域内部定义的函数，如下：
+        let f;
+        {
+            let a = 'secret';
+            f = function(){
+                return a;
+            }
+        }
+        f();
+     
+	    // const命令，只能声明常量----------------------------------------------------------------------------------------
+        // 一旦声明，常量的值就不能改变。
+
+        // const只能保证这个指针是固定的，不能控制它指向的数据结构
+        // 依然可以为其添加新属性。
+        const p = '23.5';
+        const a = [];
+        a.push('Hello'); // 可执行
+        a.length = 0;    // 可执行
+        a = ['Dave'];    // 报错
+
+
+        //跨模块常量
+        export const A = '1';
+        import * as constants from './constants';
+        console.log(contstants.A);
+
+        // ES5 只有两种声明变量的方法：var命令和function命令。
+        // ES6除了添加let和const命令，还有另外两种声明变量的方法：import命令和class命令。
+        // 所以，ES6 一共有6种声明变量的方法。
+        //let命令、const命令、class命令声明的全局变量，不属于顶层对象的属性。
+
+    </script>
+    
+</body>
+</html>

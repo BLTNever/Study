@@ -73,7 +73,8 @@
     </div>
 
     <div class="well">
-        <h2>数组去重</h2>
+        <h2>数组,合并去重</h2>
+        <h3>ES5 写法</h3>
         <pre>
         var arr1 = [1,23,4,5,6,7,3];
         var arr2 = [2,34,,5,1,4,6,8];
@@ -90,6 +91,20 @@
             }
             return arr3;
         }
+        </pre>
+
+        <h3>ES6 写法</h3>
+        <pre>
+        let arr3 = [1,23,4,5,6,7,3];
+        let arr4 = [2,34,5,1,4,6,8];
+
+        let arr5 = arr3.concat(arr4);
+        Array.from(new Set(arr5));
+        </pre>
+        <h3>拓展运算符...</h3>
+        <pre>
+            let arr = [3,5,2,2,5,5];
+            let unique = [...new Set(arr)];
         </pre>
     </div>
 
@@ -133,7 +148,16 @@
 
             return arr3;
         }
+        // ES6 数组合并去重
+        let arr4 = [1,23,4,5,6,7,3,5,4];
+        // let arr5 = [2,34,5,1,4,6,8,4,2];
 
+        Array.from(new Set(arr4));
+        console.log(Array.from(new Set(arr4)))
+        // ...拓展运算符
+        let arr6 = [1,1,2,3,1,5,5,2,2,6,6,2,3,4,2,4];
+        let unique = [...new Set(arr6)];
+        console.log(unique);
     </script>
 </body>
 </html>
