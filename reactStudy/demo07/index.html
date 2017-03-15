@@ -10,15 +10,25 @@
     <script type="text/babel">
 
         var MyComponent = React.createClass({
-            getInfo: function(){
-                this.refs.textInput.focus();
+
+            getInitialState: function() {
+                return ({
+                    enable: false
+                })
+            },
+
+            handleClick: function(){
+                /*this.refs.textInput.focus();*/
+                this.setState({
+                    enable: !this.state.enable
+                })
             },
 
             render: function(){
                 return (
                     <div>
-                        <input type="text" ref="textInput" />
-                        <button value="Focus the text input" onClick={this.getInfo}>BUTTON</button>
+                        <input type="text" ref="textInput" disabled={this.state.enable}/>
+                        <button value="Disabled the input" onClick={this.handleClick}>BUTTON</button>
                     </div>
                 )
             }

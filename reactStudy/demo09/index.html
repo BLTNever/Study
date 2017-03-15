@@ -8,27 +8,32 @@
   <body>
     <div id="example"></div>
     <script type="text/babel">
-        var FromSubmit = React.createClass({
+        
+        var LikeNg = React.createClass({
+
             getInitialState: function() {
-                return {value: 'wwwwwwwwhat?'}
+                return ({enter : '123'})
             },
 
-            handelChange: function(event) {
-                this.setState({value: event.target.value})
+            handleChange: function(event) {
+                this.setState({enter : event.target.value})
             },
 
             render: function() {
-                var value = this.state.value;
+    
                 return (
                     <div>
-                        <input type="text" value={value} onChange={this.handelChange} />
-                        <p>{value}</p>
+                        <input type="text" value={this.state.enter} onChange={this.handleChange} />
+                        <p>{this.state.enter}</p>
                     </div>
                 )
             }
-        })
 
-        ReactDOM.render(<FromSubmit />, document.body)
+        })
+        
+        ReactDOM.render(<LikeNg />, document.body)
+
+        
     </script>
   </body>
 </html>
