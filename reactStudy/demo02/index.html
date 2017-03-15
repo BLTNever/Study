@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+  </head>
+  <body>
+    <div id="example"></div>
+    <script type="text/babel">
+        var type = ['Leopard 2', 'ChallengerⅡ', 'MerkavaⅣ', 'Type99'];
+        
+        ReactDOM.render(
+            <div>
+                {
+                    type.map(function(val) {
+                        return <div>This is {val}!</div>
+                    })
+                }
+            </div>,
+            document.getElementById('example')
+        )
+    </script>
+  </body>
+</html>

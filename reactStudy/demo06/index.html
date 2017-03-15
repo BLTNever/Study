@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+
+  </head>
+  <body>
+    <div id="example"></div>
+    <script type="text/babel">
+
+        var Prove = React.createClass({
+            /*验证
+            propTypes: {
+                level: React.propTypes.string.isRequired,
+            },
+            默认值*/
+            getDefaultProps: function() {
+                return {
+                    level: '85'
+                }
+            },
+            render: function(){
+                return <h1>{this.props.level}</h1>
+            }
+        });
+
+        /*var data = 80;*/
+
+        ReactDOM.render(
+            /*<Prove level={data} />,*/
+            <Prove />,
+            document.body
+        )
+
+    </script>
+  </body>
+</html>
+

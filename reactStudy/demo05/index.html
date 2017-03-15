@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+  </head>
+  <body>
+    <div id="example"></div>
+    <script type="text/babel">
+        var NodeList = React.createClass({
+            render: function(){
+                return (
+                    <ul>
+                        {
+                            React.Children.map(this.props.children,function(child) {
+                                return <li>{child}</li>
+                            })
+                        }
+                    </ul>
+                )
+            }
+        })
+
+        ReactDOM.render(
+            <NodeList>
+                <span>今</span>
+                <span>晚</span>
+                <span>的</span>
+                <span>月</span>
+                <span>色</span>
+                <span>真</span>
+                <span>美</span>
+            </NodeList>,
+            document.getElementById('example')
+        );
+    </script>
+  </body>
+</html>
+
