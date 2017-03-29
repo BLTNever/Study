@@ -32,7 +32,7 @@
     <!--JS异步回调-->
     <div class="well">
         <h2>不同的异步函数</h2>
-        
+
         <P>回调函数</P>
         <pre>
         function getSth(com) {
@@ -67,7 +67,7 @@
 
         getSth().then(compute);           
         </pre>
-        
+
         <p>generator</p>
         <pre>
         function getSth() {
@@ -200,7 +200,7 @@
 
     <script>
         var isMomHappy = true;
-        var willGetNewPhone = new Promise(function (resolve, reject) {
+        var willGetNewPhone = new Promise(function(resolve, reject) {
             if (isMomHappy) {
                 var phone = {
                     brand: 'Samsung',
@@ -223,10 +223,10 @@
         //             console.log(error);
         //         })
         // };
-        
 
 
-        var showOff = function (phone) {
+
+        var showOff = function(phone) {
             // return new Promise(function (resolve, reject) {
             //     var message = 'Hey bro, I have a new' + phone.color + ' ' + phone.brand + 'phone';
 
@@ -239,20 +239,30 @@
         }
 
 
-        var askMom = function () {
+        var askMom = function() {
             console.log('before asking mom');
             willGetNewPhone
                 .then(showOff)
-                .then(function (fulfilled) {
+                .then(function(fulfilled) {
                     console.log(fulfilled);
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.log(error.message)
                 })
             console.log('after asking mom')
         }
 
         askMom();
+
+        (async() => {
+            let i = 0;
+            while (i++ < 5) {
+                await new Promise((resolve, reject) => {
+                    setTimeout(resolve, 1000)
+                })
+                console.log(i)
+            }
+        })()
     </script>
 </body>
 

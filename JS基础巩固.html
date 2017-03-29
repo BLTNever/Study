@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>JS基础巩固</title>
@@ -16,27 +17,31 @@
             font-size: 16px;
             margin: 10px auto;
         }
+        
         .well p {
             color: red;
         }
+        
         .well p:nth-child(odd) {
             color: blue;
         }
     </style>
 </head>
+
 <body>
-    
+
 
     <div class="well">
-        <h2>__proto__（隐式原型）与prototype（显式原型）</>
-        <h3>1. 是什么</h3>
-        <p>每一个函数在创建之后都会拥有一个名为prototype的属性，这个属性指向函数的原型对象</p>
-        <p>Note：通过Function.prototype.bind方法构造出来的函数是个例外，它没有prototype属性。</p>
-        <p>Note: Object.prototype 这个对象是个例外，它的__proto__值为null </p>
-        <p>隐式原型指向创建这个对象的函数(<strong>constructor</strong>)的prototype</p>
-        <h3>2. 作用是什么</h3>
+        <h2>__proto__（隐式原型）与prototype（显式原型）
+            </>
+            <h3>1. 是什么</h3>
+            <p>每一个函数在创建之后都会拥有一个名为prototype的属性，这个属性指向函数的原型对象</p>
+            <p>Note：通过Function.prototype.bind方法构造出来的函数是个例外，它没有prototype属性。</p>
+            <p>Note: Object.prototype 这个对象是个例外，它的__proto__值为null </p>
+            <p>隐式原型指向创建这个对象的函数(<strong>constructor</strong>)的prototype</p>
+            <h3>2. 作用是什么</h3>
 
-        <pre>
+            <pre>
             第一种:
             var a = {x:1};
             var b =Object.create(a);
@@ -49,9 +54,9 @@
             console.log(b.__proto__);//输出{}
             只要注意区分__proto__和prototype就可以了
         </pre>
-  
+
     </div>
-    
+
     <!--new Obj-->
     <div class="well">
         <h2>new操作符</h2>
@@ -78,12 +83,12 @@
         <p>
             函数嵌套函数，内部函数可以引用外部函数的参数和变量，变量和参数不会被垃圾回收机制所回收
         </p>
-        
+
     </div>
 
-     <!--JS闭包-->
+    <!--JS闭包-->
     <div class="well">
-        
+
         <p>1.函数」和「函数内部能访问到的变量」（也叫环境）的总和，就是一个闭包。</p>
         <p>2.闭包的场景：</br>
             &nbsp;2.1.使用闭包可以在JavaScript中模拟块级作用域；</br>
@@ -121,8 +126,7 @@
     <!--模块开发-->
     <div class="well">
         <p>
-            一、原始写法
-                模块就是实现特定功能的一组方法。
+            一、原始写法 模块就是实现特定功能的一组方法。
         </p>
         <code>
             function m1(){
@@ -133,8 +137,7 @@
         　　 }
         </code>
         <p>
-            二、对象写法
-                可以把模块写成一个对象，所有的模块成员都放到这个对象里面。
+            二、对象写法 可以把模块写成一个对象，所有的模块成员都放到这个对象里面。
         </p>
         <code>
             var module1 = new Object({
@@ -152,8 +155,7 @@
             </code>
         </code>
         <p>
-            三、立即执行函数写法
-                使用"立即执行函数"（Immediately-Invoked Function Expression，IIFE），可以达到不暴露私有成员的目的。
+            三、立即执行函数写法 使用"立即执行函数"（Immediately-Invoked Function Expression，IIFE），可以达到不暴露私有成员的目的。
         </p>
         <code>
             var module1 = (function(){
@@ -171,8 +173,7 @@
             })();
         </code>
         <p>
-            四、放大模式
-                如果一个模块很大，必须分成几个部分，或者一个模块需要继承另一个模块，这时就有必要采用"放大模式"（augmentation）。
+            四、放大模式 如果一个模块很大，必须分成几个部分，或者一个模块需要继承另一个模块，这时就有必要采用"放大模式"（augmentation）。
         </p>
         <code>
             var module1 = (function (mod){
@@ -233,7 +234,7 @@
             // 立即执行函数,必须是函数表达式,不能是函数声明
         </pre>
     </div>
-    
+
     <div class="well">
         <pre>
             Number + Number -> 加法
@@ -246,41 +247,42 @@
     </div>
 
     <script>
-        
         // well1
-            // 第一种:
-        var a = {x:1};
+        // 第一种:
+        var a = {
+            x: 1
+        };
         var b = Object.create(a);
-        console.log(b);//输出:{};
-        console.log(b.__proto__);//输出:{x:1}
+        console.log(b); //输出:{};
+        console.log(b.__proto__); //输出:{x:1}
 
         // 第二种:
-            // b = new Object(a);
-        console.log(b);//输出:{x:1}
-        console.log(b.__proto__);//输出{}
+        // b = new Object(a);
+        console.log(b); //输出:{x:1}
+        console.log(b.__proto__); //输出{}
         // 只要注意区分__proto__和prototype就可以了
 
         // well2
-            // 模块开发
+        // 模块开发
 
 
         // well3
 
         // 闭包例子, 它访问了三个域的变量, 它自己作用域的变量, 父函数作用域的变量全局作用域的变量
-        var globalVar = "abc"; 
+        var globalVar = "abc";
 
-        (function outerFunction (outerArg) { 
-            var outerVar = 'x';    
-            (function innerFunction (innerArg) {
-                var innerVar = "y"; 
-                console.log(          
+        (function outerFunction(outerArg) {
+            var outerVar = 'x';
+            (function innerFunction(innerArg) {
+                var innerVar = "y";
+                console.log(
                     "outerArg = " + outerArg + "\n" +
                     "outerVar = " + outerVar + "\n" +
                     "innerArg = " + innerArg + "\n" +
                     "innerVar = " + innerVar + "\n" +
                     "globalVar = " + globalVar);
-            })(5);  
-        })(7); 
+            })(5);
+        })(7);
         // outerArg = 7
         // outerVar = x
         // innerArg = 5
@@ -288,4 +290,5 @@
         // globalVar = abc
     </script>
 </body>
+
 </html>
