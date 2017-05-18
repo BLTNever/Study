@@ -114,7 +114,7 @@
         }
         </pre>
     </div>
-
+    
     <div class="well">
         <h2>数组,合并去重</h2>
         <h3>ES5 写法</h3>
@@ -193,7 +193,43 @@
 
         // alert(quickSort([32,45,37,16,2,87]));//弹出“2,16,32,37,45,87
 
-    
+        var configFlows = {
+            "buttons":[
+                { 
+                    "name": "loading"
+                },
+                {
+                    "name": "scan"
+                },
+                {
+                    "name": "scanedOtherOne"                
+                }
+            ]
+        }
+        var dataFlows = {
+            "buttons":[
+                { 
+                    "name": "loading", 
+                    "type": false
+                },
+                {
+                    "name": "scan", 
+                    "type": true
+                },
+                {
+                    "name": "scanedOtherOne", 
+                     "type": true
+                }
+            ]
+        }
+        var buttonsList = configFlows.buttons
+        var dataBtn = dataFlows.buttons
+        buttonsList.forEach(val => {
+            dataBtn.forEach(item => {
+                val.name == item.name && (val.type = item.type)
+            })
+        })
+        console.log(buttonsList,'buttonsList')
         // 冒泡排序
         var arr3 = [1,23,4,5,55,26,7,45,3,123];
         function bubbleSort(arr) {

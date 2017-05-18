@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Canvas Turntable</title>
+
+    <script src="https://a.alipayobjects.com/jquery/jquery/1.11.1/jquery.js"></script>
+    <style>
+        .wrapper {
+            padding: 20px 40px;
+        }
+        
+        .fork-github {
+            position: fixed;
+            right: -100px;
+            top: 45px;
+            z-index: 9999;
+            padding: 2px 100px;
+            font-size: 12px;
+            background-color: #444;
+            border: 1px solid #000;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+            text-align: center;
+        }
+        
+        .fork-github a {
+            color: #fff;
+        }
+        
+        .turntable a.turntable-btn {
+            border: none;
+        }
+    </style>
+</head>
+
+<body ontouchstart>
+
+    <div class="wrapper typo" id="wrapper">
+
+        <section id="turntable" class="turntable">
+            <div class="turntable-container">
+                <canvas class="turntable-canvas" width="300" height="300px">抱歉！浏览器不支持。</canvas>
+            </div>
+
+            <a class="turntable-btn" href="javascript:;">抽奖</a>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let opts = {
+                id: 'turntable',
+                prizes: ['1元红包', '2元红包', '3元红包', '4元红包', '5元红包', '6元红包'],
+                num: 6
+            }
+            function normalizeCss(name) {
+                name = name.toLowerCase();
+                return cssPrefix ? cssPrefix + name : name;
+            }
+            let cssSupport = {
+                transform: normalizeCss('Transform'),
+                transitionEnd: normalizeEvent('TransitionEnd')
+            }
+
+            let transform = cssSupport.transform;
+            let transitionEnd = cssSupport.transitionEnd;
+
+            let draw = function (opts) {
+                opts = opts || {};
+                let num = opts.num;
+                if (!opts.id || num >>> 0 === 0) return;
+
+                let id = opts.id,
+                    rotateDeg = 360 / num / 2 + 90,  // 扇形回转角度
+                    ctx,
+                    prizeItems = document.createElement('ul'), // 奖项容器
+                    turnNum = 1 / num,  // 文字旋转 turn 值
+                    html = [];  // 奖项
+
+                ele = document.getElementById(id);
+                canvas = ele.querySelector('.turntable-canvas');
+                container = ele.querySelector('.turntable-container');
+                btn = ele.querySelector('.turntable-btn');
+
+                if (!canvas.getContext) {
+                    showMsg('抱歉！浏览器不支持。');
+                    return;
+                }
+                // 获取绘图上下文
+                ctx = canvas.getContext('2d');
+
+                for (var i = 0; i < num; i++) {
+                    // 保存当前状态
+                    ctx.save();
+                    // 开始一条新路径
+                    ctx.beginPath();
+                    // 位移到圆心，下面需要围绕圆心旋转
+                    ctx.translate(150, 150);
+                    // 从(0, 0)坐标开始定义一条新的子路径
+                    ctx.moveTo(0, 0);
+                    // 旋转弧度,需将角度转换为弧度,使用 degrees * Math.PI/180 公式进行计算。
+                    ctx.rotate((360 / num * i - rotateDeg) * Math.PI / 180);
+                    // 绘制圆弧
+                    ctx.arc(0, 0, 150, 0, 2 * Math.PI / num, false);
+
+                    // 颜色间隔
+                    if (i % 2 == 0) {
+                        ctx.fillStyle = '#ffb820';
+                    } else {
+                        ctx.fillStyle = '#ffcb3f';
+                    }
+
+                    // 填充扇形
+                    ctx.fill();
+                    // 绘制边框
+                    ctx.lineWidth = 0.5;
+                    ctx.strokeStyle = '#e4370e';
+                    ctx.stroke();
+
+                    // 恢复前一个状态
+                    ctx.restore();
+
+                    // 奖项列表
+                    html.push('<li class="turntable-item"> <span style="' + transform + ': rotate(' + i * turnNum + 'turn)">' + opts.prizes[i] + '</span> </li>');
+                    if ((i + 1) === num) {
+                        prizeItems.className = 'turntalbe-list';
+                        container.appendChild(prizeItems);
+                        prizeItems.innerHTML = html.join('');
+                    }
+
+                }
+            }
+
+            draw(opts);
+        });
+    </script>
+</body>
+
+</html>

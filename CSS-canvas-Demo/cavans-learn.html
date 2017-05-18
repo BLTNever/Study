@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Learn to do canvas</title>
+
+    <script src="https://a.alipayobjects.com/jquery/jquery/1.11.1/jquery.js"></script>
+    <style>
+        body {
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="200" height="200" style="border: 1px solid #666">
+        您的浏览器不支持 HTML5 canvas 标签。
+    </canvas>
+
+    <canvas id="myCanvas1" width="200" height="200" style="border: 1px solid #666">
+        您的浏览器不支持 HTML5 canvas 标签。
+    </canvas>
+
+    <script>
+        let c = document.getElementById('myCanvas');
+        let ctx = c.getContext('2d');
+
+        ctx.fillStyle = '#999';// fillStyle属性可以是CSS颜色，渐变，或图案
+        ctx.fillRect(25, 0, 150, 75);// 定义矩形当前的填充方式, (a,b,c,d)。 a,b是xy坐标。 c,d是矩形大小
+
+        ctx.moveTo(200, 0);// (x,y) 定义线条开始坐标
+        ctx.lineTo(0, 200);// (x,y) 定义线条结束坐标
+        ctx.moveTo(0, 0);ctx.lineTo(200, 200);
+        ctx.stroke();// 绘制已定义的路径
+
+        ctx.beginPath();// 开始一条路径，或重置当前路径
+        ctx.arc(100, 100, 50, 0, 2 * Math.PI);// arc(x,y,r,start,stop) x,y 中心。 r圆的半径。 start起始角。 stop结束角。
+        ctx.stroke();
+
+        ctx.font = '30px Arial';// 设置或返回文本内容的当前字体属性
+        ctx.fillText('Hello, World', 20, 100);// 在画布上绘制文本(填充)
+        ctx.strokeText('Hello, World', 20, 150);// 在画布上绘制文本（无填充）
+
+        let a = document.getElementById('myCanvas1');
+        let atx = a.getContext('2d');
+        // 创建渐变 (线性)
+        let lgrd = atx.createLinearGradient(0, 0, 200, 0);// 创建线性渐变(x0, y0, x1, y1),x0, y0渐变开始的坐标. x1, y1渐变结束的坐标
+        lgrd.addColorStop(0, 'red');// gradient 对象中的颜色和位置 (stop, color)
+        lgrd.addColorStop(1, 'white');// stop介于 0.0 与 1.0 之间的值，表示渐变中开始与结束之间的位置。
+                                     // color 在结束位置现实的CSS颜色值
+        // 填充渐变
+        atx.fillStyle = lgrd;
+        atx.fillRect(0, 0, 200, 90);
+
+        // 创建渐变 (径性)
+        let rgrd = atx.createRadialGradient(100, 45, 5, 150, 67, 200);// 创建放射状/圆形渐变对象(x0, y0, r0, x1, y1, r1)
+            //x0, y0渐变开始圆的坐标. r0圆开始的半径. x1, y1渐变结束圆的坐标. r1圆结束的半径
+        rgrd.addColorStop(0, 'red');
+        rgrd.addColorStop(1, 'white');
+
+        atx.fillStyle = rgrd;
+        atx.fillRect(0, 100, 200, 90);
+    </script>
+</body>
+</html>

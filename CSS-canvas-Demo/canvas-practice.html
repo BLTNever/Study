@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>canvas-practice</title>
+
+    <style>
+        body {
+            background-color: #999;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="1060" height="660" style="border: 6px solid #fff; margin-left: 20px;">
+        您的浏览器不支持 HTML5 canvas 标签。
+    </canvas>
+
+    <script>
+        let c = document.getElementById('myCanvas');
+        let ctx = c.getContext('2d');
+
+        let lgrd = ctx.createLinearGradient(0, 0, 0, 660);
+        lgrd.addColorStop(0, '#529312');
+        lgrd.addColorStop(0.1, '#326d03');
+        lgrd.addColorStop(0.2, '#529312');
+        lgrd.addColorStop(0.3, '#326d03');
+        lgrd.addColorStop(0.4, '#529312');
+        lgrd.addColorStop(0.5, '#326d03');
+        lgrd.addColorStop(0.6, '#529312');
+        lgrd.addColorStop(0.7, '#326d03');
+        lgrd.addColorStop(0.8, '#529312');
+        lgrd.addColorStop(0.9, '#326d03');
+        lgrd.addColorStop(1, '#529312');
+
+        ctx.fillStyle = lgrd;
+        ctx.fillRect(0, 0, 1060, 660);
+    </script>
+</body>
+</html>

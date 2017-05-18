@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>零散知识点</title>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+
+    <style>
+        .well {
+            border: 1px dashed #666;
+            padding: 12px;
+            width: auto;
+            color: #000;
+            font-size: 16px;
+            margin: 10px auto;
+        }
+        
+        .well p {
+            color: red;
+        }
+        
+        .well p:nth-child(odd) {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="well form-group">
+        <h2>$与$.fn的区别</h2>
+        <input type="text" id="test" name="name" value="test" class="form-control" />
+        <input type="text" id="jQueryFn" name="name" value="jQueryFn" class="form-control" />
+        <p>
+            一类($)直接由$符调用;另一类($.fn)由$("")来调用; </br>
+            $拓展的方法是静态方法, 可以使用$直接调用, 其拓展的方式有两种, 一般使用$.extend({}); </br>
+            $.fn拓展的方法是实例方法, 必须由“对象”$("")来调用, 其拓展的方式同样有两种, 一般使用$.fn.extend({ }); </br>
+            jQuery.fn = jQuery.prototype = {......},
+        </p>
+    </div>
+
+
+
+    <script>
+        $.extend({
+            test: function () {
+                alert('test');
+            }
+        });
+        $.fn.extend({
+            fnTest: function () {
+                alert($(this).val());
+            }
+        });
+
+        $('#test').on('click', function () {
+            $.test()
+        })
+        $('#jQueryFn').on('click', function () {
+            $(this).fnTest()
+        })
+
+    
+    </script>
+</body>
+
+</html>

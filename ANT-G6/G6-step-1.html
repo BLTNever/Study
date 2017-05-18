@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>G6 step-1</title>
+
+    <script src="https://a.alipayobjects.com/jquery/jquery/1.11.1/jquery.js"></script>
+    <script src="https://os.alipayobjects.com/rmsportal/OcaEYXvBMYxQXGTYUbyH.js"></script>
+
+    <style>
+        .btn {
+            padding: 10px 0;
+            border-radius: 6px;
+            background: #fff;
+            min-width: 450px;
+            border: 1px solid #f0f0f0;
+            box-shadow: 0px 1px 8px rgba(191, 200, 209, 0.5);
+            text-align: center;
+        }
+        
+        .btn div {
+            display: inline-block;
+            padding: 6px 12px;
+            color: #666;
+            cursor: pointer;
+        }
+        
+        #c1 {
+            border: 1px solid #f0f0f0;
+            box-shadow: 0px 1px 8px rgba(191, 200, 209, 0.5);
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="btn">
+        <div id="addCircle">圆形</div>
+        <div id="addRect">矩形</div>
+        <div id="addRhombus">菱形</div>
+        <div id="addLine">添加直线</div>
+        <div id="addSmooth">添加曲线</div>
+        <div id="updo">撤销</div>
+        <div id="delete">删除</div>
+        <div id="save">保存</div>
+        <!--<div id="update">查找并更新</div>-->
+    </div>
+
+    <div id="c1"></div>
+
+    <script>
+        
+        let addCircle = $('#addCircle'),// 圆形
+            addRect = $('#addRect'),// 矩形
+            addRhombus = $('#addRhombus'),// 菱形
+            updoBtn = $('#updo'),// 撤销
+            delBtn = $('#delete'),// 删除
+            // update = $('#update'),
+            addLine = $('#addLine'),// 直线
+            addSmooth = $('#addSmooth'),// 曲线
+            save = $('#save'),// 保存
+            data = {
+                nodes: [],
+                edges: []
+            },
+            net = new G6.Net({
+                id: 'c1',
+                height: 600,
+                grid: {
+                    forceAlign: true, // 是否支持网格对齐
+                    cell: 20,         // 网格大小
+                    line: {           // 网格线样式
+                        stroke: '#f0f0f0'
+                    },
+                    zoomable: false
+                }
+            });
+        //     handler = new G6.handler({
+        //         id: 'c1'
+        //     });
+        // handler.wheelZoom();
+        // net.beginAdd & net.add (.add直接添加, .beginAdd鼠标点击添加)
+        // 添加圆形
+        addCircle.on('click', (e) => {
+            net.beginAdd('node', {
+                shape: 'circle'
+            });
+        })
+        // 添加矩形
+        addRect.on('click', (e) => {
+            net.beginAdd('node', {
+                shape: 'rect',
+            })
+        })
+        // 添加菱形
+        addRhombus.on('click', (e) => {
+            net.beginAdd('node', {
+                shape: 'rhombus',
+            })
+        })
+        // 添加直线
+        addLine.on('click', (e) => {
+            net.beginAdd('edge', {
+                shape: 'line'
+            })
+        })
+        // 添加曲线
+        addSmooth.on('click', (e) => {
+            net.beginAdd('edge', {
+                shape: 'smooth'
+            })
+        })
+        // 撤销
+        updoBtn.on('click', (e) => {
+            net.updo()
+        })
+        // 删除
+        delBtn.on('click', (e) => {
+            net.del()
+        })
+        // net.source(data.nodes, data.edges);
+        net.render();
+        // 保存
+        save.on('click', (e) => {
+            let saveData = net.save();
+            let json = JSON.stringify(saveData, null, 2);
+            console.log(saveData, json)
+        })
+        
+    </script>
+</body>
+
+</html>

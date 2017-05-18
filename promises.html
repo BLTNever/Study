@@ -36,7 +36,7 @@
         <P>回调函数</P>
         <pre>
         function getSth(com) {
-            var r = 0;
+            let r = 0;
             setTimeout(function() {
                 r = 2;
                 com(r)
@@ -53,7 +53,7 @@
         <p>promise</p>
         <pre>
         function getSth() {
-            var r = 0;
+            let r = 0;
             return new Promise(function(resolve) {
                 setTimeout(function() {
                     r = 2;
@@ -71,24 +71,24 @@
         <p>generator</p>
         <pre>
         function getSth() {
-            var r = 0;
+            let r = 0;
             setTimeout(function() {
                 r = 2;
                 it.next(r);
             })
         }
         function *compute(it) {
-            var x = yield getSth();
+            let x = yield getSth();
             alert(x * ２)
         }
-        var it = compute();
+        let it = compute();
         it.next();
         </pre>
 
         <p>promise + generator</p>
         <pre>
         function getSth() {
-            var r = 0;
+            let r = 0;
             return new Promise(function(){
                 setTimeout(function() {
                     r = 2;
@@ -97,10 +97,10 @@
             })
         }
         function *compute() {
-            var x = yield getSth();
+            let x = yield getSth();
             alert(x * 2);
         }
-        var it = compute();
+        let it = compute();
         it.next().value.then(function(value) {
             it.next(value)
         })
@@ -109,7 +109,7 @@
         <p>async</p>
         <pre>
         function getSth() {
-            var r = 0;
+            let r = 0;
             return new Promise(function(){
                 setTimeout(function() {
                     r = 2;
@@ -118,7 +118,7 @@
             })
         }
         async function compute() {
-            var x = await getSth();
+            let x = await getSth();
             alert(x * 2);
         }
         compute();
@@ -128,17 +128,17 @@
     <div class="well">
         <!--step 1-->
         <pre>
-        var isMomHappy = false;
-        var willGetNewPhone = new Promise(function(resolve, reject){
+        let isMomHappy = false;
+        let willGetNewPhone = new Promise(function(resolve, reject){
             if(isMomHappy) {
-                var phone = {
+                let phone = {
                     brand: 'Samsung',
                     color: 'black';
                 };
                 
                 resolve(phone)
             }else {
-                var reson = new Error('mom is not happy');
+                let reson = new Error('mom is not happy');
                 reject(reson);
             }
         })
@@ -148,7 +148,7 @@
         </pre>
         <!--step 2-->
         <pre>
-        var askMom = function() {
+        let askMom = function() {
             willGetNewPhone
                 .then(function(fulfilled) {
                     console.log(fulfilled);
@@ -166,21 +166,21 @@
         </pre>
         <!--step 3-->
         <pre>
-        var showOff = function(phone) {
+        let showOff = function(phone) {
             <!--return new Promise(function(resolve, reject) {
-                var message = 'Hey bro, I have a new' + phone.color + ' ' + phone.brand + 'phone';
+                let message = 'Hey bro, I have a new' + phone.color + ' ' + phone.brand + 'phone';
 
                 resolve(message);
             })-->
 
-            var message = 'Hey bro, I have a new' + phone.color + ' ' + phone.brand + 'phone';
+            let message = 'Hey bro, I have a new' + phone.color + ' ' + phone.brand + 'phone';
 
             return Promise.resolve(message);
             }
         </pre>
         <!--step 4-->
         <pre>
-            var askMom = function() {
+            let askMom = function() {
                 console.log('before asking mom');
                 willGetNewPhone
                 .then(showOff)
@@ -199,22 +199,22 @@
 
 
     <script>
-        var isMomHappy = true;
-        var willGetNewPhone = new Promise(function(resolve, reject) {
+        let isMomHappy = true;
+        let willGetNewPhone = new Promise(function (resolve, reject) {
             if (isMomHappy) {
-                var phone = {
+                let phone = {
                     brand: 'Samsung',
                     color: 'black'
                 };
 
                 resolve(phone)
             } else {
-                var reson = new Error('mom is not happy');
+                let reson = new Error('mom is not happy');
                 reject(reson);
             }
         })
 
-        // var askMom = function () {
+        // let askMom = function () {
         //     willGetNewPhone
         //         .then(function (fulfilled) {
         //             console.log(fulfilled);
@@ -226,27 +226,27 @@
 
 
 
-        var showOff = function(phone) {
+        let showOff = function (phone) {
             // return new Promise(function (resolve, reject) {
-            //     var message = 'Hey bro, I have a new' + phone.color + ' ' + phone.brand + 'phone';
+            //     let message = 'Hey bro, I have a new' + phone.color + ' ' + phone.brand + 'phone';
 
             //     resolve(message);
             // })
 
-            var message = 'Hey bro, I have a new' + phone.color + ' ' + phone.brand + 'phone';
+            let message = 'Hey bro, I have a new' + phone.color + ' ' + phone.brand + 'phone';
 
             return Promise.resolve(message);
         }
 
 
-        var askMom = function() {
+        let askMom = function () {
             console.log('before asking mom');
             willGetNewPhone
                 .then(showOff)
-                .then(function(fulfilled) {
+                .then(function (fulfilled) {
                     console.log(fulfilled);
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     console.log(error.message)
                 })
             console.log('after asking mom')
@@ -254,7 +254,7 @@
 
         askMom();
 
-        (async() => {
+        (async () => {
             let i = 0;
             while (i++ < 5) {
                 await new Promise((resolve, reject) => {
@@ -263,6 +263,71 @@
                 console.log(i)
             }
         })()
+ 
+        // new Promise then
+        let getSth = () => {
+            let r = 0;
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    r = 2;
+                    resolve(r);
+                }, 10)
+            })
+        }
+        let com = (x) => {
+            console.log(x * 2);
+        }
+        getSth().then(com)
+
+        // generator *
+        function getSthGenerator() {
+            let r = 0;
+            setTimeout(() => {
+                r = 2;
+                it.next(r);
+            })
+        }
+        function *comGenerator(it)  {
+            var x =  yield getSthGenerator();
+            console.log(x * 3);
+        }
+        let it = comGenerator();
+        it.next();
+
+        // promise + generator
+        function getSthProGen() {
+            let r = 0;
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    r = 2;
+                    resolve(r);
+                },10)
+            })
+        }
+        function *comProGen() {
+            let x = yield getSthProGen();
+            console.log(x * 4);
+        }
+        let it2 = comProGen();
+        it2.next().value.then((value) => {
+            it2.next(value)
+        })
+        
+        // async await
+        let getSthAsync = () => {
+            let r = 0;
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    r = 2;
+                    resolve(r);
+                })
+            })
+        }
+        let comAsync = async () => {
+            let x = await getSthAsync();
+            console.log(x * 5)
+        }
+        comAsync();
     </script>
 </body>
 

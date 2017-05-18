@@ -3,9 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>canvas line</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>canvas star line (event)</title>
     <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
-
 </head>
 
 <body>
@@ -15,7 +16,7 @@
             if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
 
             } else {
-                $(function() {
+                $(function () {
                     var canvas = document.querySelector('canvas'),
                         ctx = canvas.getContext('2d')
                     canvas.width = window.innerWidth;
@@ -79,7 +80,7 @@
                     }
 
                     Dot.prototype = {
-                        draw: function() {
+                        draw: function () {
                             ctx.beginPath();
                             ctx.fillStyle = this.color.style;
                             ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
@@ -146,12 +147,12 @@
                         requestAnimationFrame(animateDots);
                     }
 
-                    $('canvas').on('mousemove', function(e) {
+                    $('canvas').on('mousemove', function (e) {
                         mousePosition.x = e.pageX;
                         mousePosition.y = e.pageY;
                     });
 
-                    $('canvas').on('mouseleave', function(e) {
+                    $('canvas').on('mouseleave', function (e) {
                         mousePosition.x = canvas.width / 2;
                         mousePosition.y = canvas.height / 2;
                     });
@@ -160,7 +161,7 @@
                     requestAnimationFrame(animateDots);
                 });
             }
-        } catch (e) {}
+        } catch (e) { }
     </script>
 </body>
 

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>
+        .container {
+            margin: auto;
+            width: 100px;
+            height: 100px;
+            background-color: #FFFFFF;
+            text-align: center;
+            border-radius: 50%;
+            border: 1px solid #000000;
+            overflow: hidden;
+            -webkit-animation-name: rotate;
+            -webkit-animation-duration: 2s;
+            -webkit-animation-iteration-count: infinite;
+            -webkit-animation-timing-function: linear;
+            /* //-webkit-animation-direction:alternate; /* Safari 和 Chrome */
+        }
+        
+        @-webkit-keyframes rotate {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+            50% {
+                -webkit-transform: rotate(180deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <canvas class="rote" id="football">
+        </canvas>
+    </div>
+</body>
+<script type="text/javascript">
+    var canvas = document.getElementById('football');
+    var ctx = canvas.getContext('2d');
+    var ctxFillStyle = '#333333';
+
+
+    //中间黑色五边形
+    ctx.beginPath();
+    //注意 改变div大小时 x1 y1 p 都需要做相应的调整
+    var x1 = 50; y1 = 30;//中间五边形的上角起点
+    var p = 4.5;			//倍数 
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x1 - 4 * p, y1 + 3 * p);
+    ctx.lineTo(x1 - 3 * p, y1 + 8 * p);
+    ctx.lineTo(x1 + 3 * p, y1 + 8 * p);
+    ctx.lineTo(x1 + 4 * p, y1 + 3 * p)
+    ctx.lineTo(x1, y1);
+    ctx.closePath();
+    ctx.fillStyle = ctxFillStyle;
+    ctx.fill();
+    ctx.stroke();
+
+    //下方的六边形
+    ctx.beginPath();
+    var x2 = x1 - 3 * p; y2 = y1 + 8 * p;
+    ctx.moveTo(x2, y2);
+    ctx.lineTo(x1 - 5 * p, y1 + 10 * p);
+    ctx.lineTo(x1 - 3 * p, y1 + 13 * p);
+    ctx.lineTo(x1 + 3 * p, y1 + 13 * p)
+    ctx.lineTo(x1 + 5 * p, y1 + 10 * p)
+    ctx.lineTo(x1 + 3 * p, y1 + 8 * p);
+    ctx.lineTo(x2, y2);
+    ctx.closePath();
+    ctx.stroke();
+
+    //左下方的六边形
+    ctx.beginPath();
+    var x3 = x1 - 3 * p; y3 = y1 + 8 * p;
+    ctx.moveTo(x3, y3);
+    ctx.lineTo(x1 - 4 * p, y1 + 3 * p);
+    ctx.lineTo(x1 - 7 * p, y1 + 2 * p);
+    ctx.lineTo(x1 - 9 * p, y1 + 4 * p);
+    ctx.lineTo(x1 - 8 * p, y1 + 9 * p);
+    ctx.lineTo(x1 - 5 * p, y1 + 10 * p);
+    ctx.lineTo(x3, y3);
+    ctx.closePath();
+    ctx.stroke();
+
+    //左上方的六边形
+    ctx.beginPath();
+    var x4 = x1 - 4 * p; y4 = y1 + 3 * p;
+    ctx.moveTo(x4, y4);
+    ctx.lineTo(x1, y1);
+    ctx.lineTo(x1, y1 - 3 * p);
+    ctx.lineTo(x1 - 3 * p, y1 - 4 * p);
+    ctx.lineTo(x1 - 7 * p, y1 - 2 * p);
+    ctx.lineTo(x1 - 7 * p, y1 + 2 * p);
+    ctx.lineTo(x4, y4);
+    ctx.closePath();
+    ctx.stroke();
+
+    //右上方的六边形
+    ctx.beginPath();
+    var x5 = x1 + 4 * p; y5 = y1 + 3 * p;
+    ctx.moveTo(x5, y5);
+    ctx.lineTo(x1, y1);
+    ctx.lineTo(x1, y1 - 3 * p);
+    ctx.lineTo(x1 + 3 * p, y1 - 4 * p);
+    ctx.lineTo(x1 + 7 * p, y1 - 1 * p);
+    ctx.lineTo(x1 + 7 * p, y1 + 2 * p);
+    ctx.lineTo(x5, y5);
+    ctx.closePath();
+    ctx.stroke();
+    //右下方的六边形
+    ctx.beginPath();
+    var x6 = x1 + 4 * p; y6 = y1 + 3 * p;
+    ctx.moveTo(x6, y6);
+    ctx.lineTo(x1 + 3 * p, y1 + 8 * p);
+    ctx.lineTo(x1 + 5 * p, y1 + 10 * p);
+    ctx.lineTo(x1 + 8 * p, y1 + 9 * p);
+    ctx.lineTo(x1 + 9 * p, y1 + 4 * p);
+    ctx.lineTo(x1 + 7 * p, y1 + 2 * p);
+    ctx.lineTo(x5, y5);
+    ctx.closePath();
+    ctx.stroke();
+
+    //下方的黑色部分
+    ctx.beginPath();
+    ctx.moveTo(x2, y2 + 5 * p);
+    ctx.lineTo(x2 - 2 * p, y2 + 10 * p);
+    ctx.lineTo(x2 + 9 * p, y2 + 10 * p);
+    ctx.lineTo(x2 + 6 * p, y2 + 5 * p);
+    ctx.lineTo(x2, y2 + 5 * p);
+    ctx.closePath();
+    ctx.fillStyle = ctxFillStyle;
+    ctx.fill();
+    ctx.stroke();
+
+    //左下方的黑色部分
+    ctx.beginPath();
+    ctx.moveTo(x1 - 9 * p, y1 + 4 * p);
+    ctx.lineTo(x1 - 12 * p, y1 + 3 * p);
+    ctx.lineTo(x1 - 12 * p, y1 + 12 * p);
+    ctx.lineTo(x1 - 8 * p, y1 + 9 * p);
+    ctx.closePath();
+    ctx.fillStyle = ctxFillStyle;
+    ctx.fill();
+    ctx.stroke();
+
+    //左上方的黑色部分
+    ctx.beginPath();
+    ctx.moveTo(x1 - 3 * p, y1 - 4 * p);
+    ctx.lineTo(x1 - 3 * p, y1 - 8 * p);
+    ctx.lineTo(x1 - 16 * p, y1 - 8 * p);
+    ctx.lineTo(x1 - 7 * p, y1 - 2 * p);
+    ctx.closePath();
+    ctx.fillStyle = ctxFillStyle;
+    ctx.fill();
+    ctx.stroke();
+
+    //右上方的黑色部分
+    ctx.beginPath();
+    ctx.moveTo(x1 + 3 * p, y1 - 4 * p);
+    ctx.lineTo(x1 + 4 * p, y1 - 7 * p);
+    ctx.lineTo(x1 + 16 * p, y1 - 7 * p);
+    ctx.lineTo(x1 + 7 * p, y1 - 1 * p);
+    ctx.closePath();
+    ctx.fillStyle = ctxFillStyle;
+    ctx.fill();
+    ctx.stroke();
+
+    //右下方的黑色部分
+    ctx.beginPath();
+    ctx.moveTo(x1 + 8 * p, y1 + 9 * p);
+    ctx.lineTo(x1 + 12 * p, y1 + 12 * p);
+    ctx.lineTo(x1 + 12 * p, y1 + 3 * p);
+    ctx.lineTo(x1 + 9 * p, y1 + 4 * p);
+    ctx.closePath();
+    ctx.fillStyle = ctxFillStyle;
+    ctx.fill();
+    ctx.stroke();
+</script>
+
+</html>
