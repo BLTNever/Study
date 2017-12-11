@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>一些小题</title>
@@ -16,14 +17,17 @@
             font-size: 16px;
             margin: 10px auto;
         }
+
         .well p {
             color: red;
         }
+
         .well p:nth-child(odd) {
             color: blue;
         }
     </style>
 </head>
+
 <body>
     <!--// well-1-->
     <div class="well">
@@ -44,12 +48,12 @@
             <p>console.log(mul(2),'//mul(2)'); </p>
             <p>console.log(mul(2)(3)(4),'//mul(2)(3)(4)'); </p>
         </pre>
-        
+
     </div>
 
     <!--// well-2-->
     <div class="well">
-        <h2>函数fn有一个参数n (数字类型)，返回一个数组,数组内是n个随机且不重复的整数,取值范围[2,32]</h2> 
+        <h2>函数fn有一个参数n (数字类型)，返回一个数组,数组内是n个随机且不重复的整数,取值范围[2,32]</h2>
         <pre>
         const fn1 = (n) => {
             const arr = []
@@ -76,10 +80,10 @@
         }
         </pre>
     </div>
-    
+
     <!--// well-4-->
     <div class="well">
-        <h2>i++ 与 ++i</h2>    
+        <h2>i++ 与 ++i</h2>
         <pre>
             var i = 1;
             a = i++ //这里i要先赋值,再自加.语句执行后a=10, i = 11;
@@ -95,7 +99,7 @@
 
     <!--// well-5-->
     <div class="well">
-        
+
         <h2>把每三个字中的首字母转为大写</h2>
         <pre>
             var a = ‘abc def ghi’,
@@ -108,73 +112,73 @@
             }   
         </pre>
     </div>
-   
+
     <script>
         // well-1
-        var mul = function(x) {
-            var result = function(y) {
+        var mul = function (x) {
+            var result = function (y) {
                 return mul(x * y);
-            } 
-            result.valueOf = function() {
+            }
+            result.valueOf = function () {
                 return x;
             }
             return result;
         }
         // // ES6写法
-        var mul = function(num) {
+        var mul = function (num) {
             let sum = num;
             let multiply = (num) => {
                 sum *= num;
                 return multiply;
             };
             multiply.valueOf = () => sum
-    
+
             return multiply;
         }
-        console.log(mul(4)(3)); 
-        console.log(mul(2)(3)(4)); 
-        console.log(mul(2)(4)(5)(3)); 
+        console.log(mul(4)(3));
+        console.log(mul(2)(3)(4));
+        console.log(mul(2)(4)(5)(3));
 
         // well-2
-            // 函数fn有一个参数n (数字类型)，返回一个数组,数组内是n个随机且不重复的整数,取值范围[2,32]
-            // 解1
+        // 函数fn有一个参数n (数字类型)，返回一个数组,数组内是n个随机且不重复的整数,取值范围[2,32]
+        // 解1
         const fn1 = (n) => {
             const arr = []
-            for(let i = 2; i < 33; i++) {
+            for (let i = 2; i < 33; i++) {
                 arr.push(i)
             }
             return arr.map(val => ({
                 val, index: Math.random()
-            })).sort((a, b) => 
+            })).sort((a, b) =>
                 a.index - b.index
-            ).map(o => 
-                o.val
-            ).slice(0, n)
+                ).map(o =>
+                    o.val
+                ).slice(0, n)
         }
         // 解1:ES5
-        var fn2 = function(n) {
+        var fn2 = function (n) {
             var arr = [];
-            for(var i = 2; i < 33; i++) {
+            for (var i = 2; i < 33; i++) {
                 arr.push(i);
             }
-            var arr1 = arr.map(function(val) {
+            var arr1 = arr.map(function (val) {
                 val = {
-                    val : val, 
-                    index : Math.random()
+                    val: val,
+                    index: Math.random()
                 }
                 return val
             })
-            var arr2 = arr1.sort(function(a, b){ 
+            var arr2 = arr1.sort(function (a, b) {
                 return a.index - b.index
             })
-            var arr3 = arr2.map(function(val){
+            var arr3 = arr2.map(function (val) {
                 return val.val
             })
             return result = arr3.slice(0, n);
         }
         // console.log(fn2(4));
         // 解2
-        function random(n){
+        function random(n) {
             var dataList = []; //存储2到32之间的所有整数
             for (var i = 2; i < 33; i++) {
                 dataList.push(i);
@@ -197,7 +201,7 @@
         var a = "abc def ghi";
         var arr1 = a.split(' ');
 
-        for(var i = 0;i < arr1.length;i++){
+        for (var i = 0; i < arr1.length; i++) {
 
             var tmp = arr1[i].split('');
 
@@ -205,10 +209,11 @@
 
             arr1[i] = tmp.join('');
         }
-        var b = arr1[0].concat(' ',arr1[1],' ',arr1[2] );
+        var b = arr1[0].concat(' ', arr1[1], ' ', arr1[2]);
         console.log(b);
 
-       
+
     </script>
 </body>
+
 </html>
