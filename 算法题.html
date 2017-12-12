@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>刷题</title>
+
+    <style>
+        pre {
+            display: none;
+            color: #666;
+            font-size: 16px;
+        }
+
+        h1 {
+            height: 80px;
+            line-height: 80px;
+            background-color: #999;
+            padding: 0 10px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        div:nth-child(odd) h1 {
+            background-color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div>
+        <h1 id="num1">
+            1. 斐波那契数列
+        </h1>
+        <pre>
+            迭代:
+            function fibonacci1(n) {
+                var num1 = 0, num2 = 1, num3, arr = [];
+                for(var i = 3;i <= n;i++) {
+                    num3 = num1 + num2;
+                    num1 = num2;
+                    num2 = num3;
+
+                    arr.push(num3);
+                }
+                return arr;
+            }
+            fibonacci1(12);
+
+            递归:
+            function fibonacci2(n) {
+                if(n <= 0) return 0;
+                if(n <= 1) return 1;
+                return fibonacci2(n - 1) + fibonacci2(n -2);
+            }
+            fibonacci2(12);
+        </pre>
+    </div>
+
+    <div>
+        <h1 id="num2">
+            2. XXXXX
+        </h1>
+        <pre>
+           
+        </pre>
+    </div>
+
+
+
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+    <script>
+        $(function () {
+            $('div').on('click', function () {
+                $(this).find('pre').toggle();
+            });
+
+            // 迭代fib
+            function fibonacci1(n) {
+                var num1 = 0, num2 = 1, num3, arr = [];
+                for (var i = 0; i <= n; i++) {
+                    num3 = num1 + num2;
+                    num1 = num2;
+                    num2 = num3;
+
+                    arr.push(num3);
+                }
+                return arr;
+            }
+            fibonacci1(12);
+            // 递归fib
+            function fibonacci2(n) {
+                if (n <= 0) return 0;
+                if (n <= 1) return 1;
+                return fibonacci2(n - 1) + fibonacci2(n - 2);
+            }
+            fibonacci2(12);
+        })
+    </script>
+
+
+
+</body>
+
+</html>
