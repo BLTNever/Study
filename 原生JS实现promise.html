@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+
+<script>
+
+
+            function stepA (success){
+                  setTimeout(function(){
+                     console.log("AAAAAAAAAA");
+                     success();
+                  }, 3000);
+              }
+                          
+              function stepB (success){
+                  setTimeout(function(){
+                     console.log("BBBBBBBBBB");
+                     success();
+                 }, 2000);           }
+             
+             function stepC (success){
+                 setTimeout(function(){
+                     console.log("CCCCCCCCCC");
+                     success();
+                 }, 1000);
+             }
+             
+             function stepD (){
+                 setTimeout(function(){
+                     console.log("DDDDDDDDD");
+                 }, 2000);
+             }
+　　　　　　　　　//模拟异步编程效果
+             function MyPromise(func){
+                 var self = this;
+                 var count = 0;
+                 this.taskList = [];
+                 this.then = function(callback){
+                     this.taskList.push(callback);
+                     return this;
+                 }
+                 this.success = function(){
+                     if(count == self.taskList.length) return;
+                     self.taskList[count++](self.success);
+                 }
+                 setTimeout(function(){
+                     func(self.success);
+                },0);
+            }
+             //强制程序按then的顺序执行
+             new MyPromise(ajaxA).then(ajaxB).then(ajaxC).then(ajaxD);
+
+</script>
+</html>

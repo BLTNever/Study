@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>继承</title>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+
+    <style>
+        .well {
+            border: 1px dashed #666;
+            padding: 12px;
+            width: auto;
+            color: #000;
+            font-size: 16px;
+            margin: 10px auto;
+        }
+
+        .well p {
+            color: red;
+        }
+
+        .well p:nth-child(odd) {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        // 定义一个动物类
+        function Animal(name) {
+            // 属性
+            this.name = name || 'Animal';
+            // 实例方法
+            this.sleep = function () {
+                console.log(this.name + '正在睡觉');
+            }
+        }
+        // 原型方法
+        Animal.prototype.eat = function (food) {
+            console.log(this.name + '正在吃' + food);
+        }
+
+        //原型链继承 (将父类的实例作为子类的原型)
+        function Cat1() { 
+
+         };
+        Cat1.prototype = new Animal();
+        Cat1.prototype.name = 'Cat1';
+
+        var cat1 = new Cat1()
+
+        //构造继承 (使用父类的构造函数来增强子类实例，等于是复制父类的实例属性给子类（没用到原型）)
+        function Cat2(name) {
+            Animal.call(this)
+            this.name = name || 'Cat2';
+        }
+
+        var cat = new Cat2()
+
+
+        //实例继承 (为父类实例添加新特性，作为子类实例返回)
+        function Cat3(name) {
+            var instance = new Animal();
+            instance.name = name || 'Cat3';
+            return instance;
+        }
+
+        var cat = new Cat3()
+
+        //组合继承 (通过调用父类构造，继承父类的属性并保留传参的优点，然后通过将父类实例作为子类原型，实现函数复用)
+        function Cat4(name) {
+            Animal.call(this);
+            this.name = name || 'Cat4';
+        }
+        Cat4.prototype = new Animal()
+
+        var cat = new Cat4()
+
+        //拷贝继承
+        // function Cat5(name) {
+        //     var animal = new Animal();
+        //     for (var s in animal) {
+        //         Cat5.prototype[p] = animal[p]
+        //     }
+        //     Cat5.prototype.name = name || 'Cat5';
+        // }
+        // var cat = new Cat5()
+
+
+        //寄生组合继承
+        function Cat6(name) {
+            Animal.call(this);
+            this.name = name || 'Cat6';
+        }
+
+        (function () {
+            var Super = function () { };
+            Super.prototype = Animal.prototype
+
+            Cat6.prototype = new Super()
+        })()
+
+        var cat = new Cat6()
+
+        //ES6类继承
+        class AnimalES6 {
+            constructor() {
+                this.name = 'Animal'
+            }
+            sleep() {
+                console.log(this.name + '正在睡觉')
+            }
+        }
+
+        class Cat7 extends AnimalES6 {
+            constructor() {
+                super()
+                this.name = 'Cat7'
+            }
+            eat(food) {
+                console.log(this.name + '正在吃' + food)
+            }
+        }
+
+        let catEs6 = new Cat7()
+    </script>
+</body>
+
+</html>
